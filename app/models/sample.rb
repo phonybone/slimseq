@@ -11,11 +11,17 @@ class Sample < ActiveRecord::Base
   belongs_to :reference_genome
   belongs_to :project
   belongs_to :eland_parameter_set
+  belongs_to :experiment
+
   has_and_belongs_to_many :flow_cell_lanes
   
   has_many :sample_terms, :dependent => :destroy
   has_many :sample_texts, :dependent => :destroy
-  
+
+#  has_and_belongs_to_many :stp_pipelines
+  has_and_belongs_to_many :post_pipelines
+    
+
   validates_presence_of :sample_description, :name_on_tube, :submission_date, :budget_number,
     :reference_genome_id, :sample_prep_kit_id, :desired_read_length, :project_id
   validates_numericality_of :alignment_start_position, :greater_than_or_equal_to => 1

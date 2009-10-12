@@ -1,5 +1,7 @@
 class Project < ActiveRecord::Base
   has_many :samples
+  has_many :studies
+
   belongs_to :lab_group
   
   validates_presence_of :name

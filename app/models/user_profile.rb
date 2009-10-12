@@ -1,13 +1,13 @@
 class UserProfile < ActiveRecord::Base
   belongs_to :user
-
   validates_presence_of :user_id
            
+  # Manually provide a list of column names that should be shown in the users/index view, since 
+  # ActiveResource doesn't seem to provide an easy way to do this.
+  #
+  # By default this include 'role' to allow role-based access
   class << self; attr_accessor :index_columns end
   @index_columns = ['role']
-
-  named_scope :notify_of_new_sequencing_runs,
-    :conditions => {:new_sequencing_run_notification => true}
 
   def before_save
     # make the first user to log in the admin
@@ -16,23 +16,12 @@ class UserProfile < ActiveRecord::Base
     end
   end
 
-  def detail_hash
-    return {}
-  end
-  
-  def self.notify_of_new_samples(lab_group)
-    new_sample_profiles = UserProfile.find(:all, :conditions => {:new_sample_notification => true})
-    lab_group_user_profiles = lab_group.users.collect{|x| x.user_profile}
-    lab_group_user_profiles += UserProfile.find(:all, :conditions => "role = 'staff' OR role = 'admin'")
-    lab_group_user_profiles.uniq!
-
-    
-    return new_sample_profiles & lab_group_user_profiles
-  end
-
-  ####################################################
-  # Authorization
-  ####################################################
+  ###############################################################################################
+  # Authorization:
+  #
+  # By default a user's role is determined by looking at the column 'role' in the UserProfile 
+  # model
+  ###############################################################################################
   
   def staff_or_admin?
     role == "staff" || role == "admin"
@@ -42,7 +31,4 @@ class UserProfile < ActiveRecord::Base
     role == "admin"
   end
 
-  def manager?
-    role == "manager"
-  end
 end
