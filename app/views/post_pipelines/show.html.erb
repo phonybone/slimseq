@@ -1,0 +1,29 @@
+<p>
+  <b>Pipeline type:</b>
+  <%=h @post_pipeline.type_name %>
+</p>
+
+<p>
+  <b>Max mismatches:</b>
+  <%=h @post_pipeline.max_mismatches %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @post_pipeline.status_name %>
+</p>
+
+<div>
+<% if @post_pipeline.samples.length > 0 %>
+Samples for this pipeline:<ul>
+<% @post_pipeline.samples.each do |s| %>
+<li><%= link_to s.name_on_tube, s %></li>
+<% end %>
+</ul>
+<% else %>
+No samples for this pipeline(?)
+<% end %>
+</div>
+
+<%= link_to 'Edit', edit_post_pipeline_path(@post_pipeline) %> |
+<%= link_to 'Back', post_pipelines_path %>

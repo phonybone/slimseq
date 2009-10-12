@@ -1,0 +1,26 @@
+<h2>Add/Remove samples to <%=h @experiment.name %></h2>
+<% form_for(@experiment, :url=> { :action => :update_samples, :id=>@experiment.id } ) do |f| %>
+<%= submit_tag 'Update' %>
+<table>
+<tr>
+  <th>Sample name</th>
+  <th>Owned by <br />Current Experiment</th>
+  <th>Unassigned</th>
+  <th>Owned by <br />Other Experiment</th>
+</tr>
+
+<% @all_samples.each do |sample| %>
+<% owned_other = !sample.experiment_id.nil? && sample.experiment_id != @experiment.id %>
+<tr>
+  <td><%=h sample.name_on_tube %></td>
+  <td><input type='radio' name='sample_<%= sample.id %>' value='current' <%= sample.experiment_id == @experiment.id ? "checked='1'" : ''%> 
+	     <%= owned_other ? "disabled='1'" : '' %> /></td>
+  <td><input type='radio' name='sample_<%= sample.id %>' value='unassigned' <%= sample.experiment_id.nil? ? "checked='1'" : ''%> <%= owned_other ? "disabled='1'" : '' %> /></td>
+  <td><input type='radio' name='sample_<%= sample.id %>' disabled='1' value='other' <%= owned_other ? "checked='1'" : '' %> />
+    <% if !sample.experiment_id.nil? %>experiment '<%= Experiment.find(sample.experiment_id).name %>'<% end %>
+</td>
+</tr>
+<% end %><!-- @all_samples.each -->
+</table>
+<%= submit_tag 'Update' %>
+<% end %><!-- form_for block -->

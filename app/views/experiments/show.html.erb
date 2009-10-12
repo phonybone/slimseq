@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%=h @experiment.name %>
+</p>
+
+<p>
+  <b>Desc:</b>
+  <%=h @experiment.desc %>
+</p>
+
+<p>
+  <b>Study:</b>
+  <%= link_to @experiment.study.name, study_path(@experiment.study) %>
+</p>
+
+
+<%= link_to 'Edit', edit_experiment_path(@experiment) %> |
+<%= link_to 'Back', experiments_path %>
