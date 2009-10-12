@@ -18,4 +18,5 @@ class PostPipeline < ActiveRecord::Base
     @@status_names[self.runtype][self.status]
   end
 
+  # this is a random comment for purposes of testing git
 end
