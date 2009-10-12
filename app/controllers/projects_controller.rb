@@ -118,6 +118,20 @@ Get detailed information about a single project.
     redirect_to projects_url
   end
 
+########################################################################
+  def new_study
+    @project=Project.find(params[:id])
+  end
+
+  def add_study
+    @project=Project.find(params[:project_id])
+    @study=Study.new(params[:study])
+    @study.project_id=@project.id
+    @study.save
+    
+    redirect_to :controller=>:projects, :id=>@project.id, :action=>:edit
+  end
+
   private
   
   def load_dropdown_selections
