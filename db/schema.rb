@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090709221527) do
+ActiveRecord::Schema.define(:version => 20091011181116) do
 
   create_table "charge_periods", :force => true do |t|
     t.string   "name"
@@ -55,10 +55,26 @@ ActiveRecord::Schema.define(:version => 20090709221527) do
 
   add_index "charges", ["charge_set_id"], :name => "charge_set_id"
 
+  create_table "dummies", :force => true do |t|
+    t.integer  "dummy_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "eland_parameter_sets", :force => true do |t|
     t.string  "name"
     t.integer "eland_seed_length"
     t.integer "eland_max_matches"
+  end
+
+  create_table "experiments", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "study_id"
+    t.integer  "stp_pipeline_id"
   end
 
   create_table "flow_cell_lanes", :force => true do |t|
@@ -189,6 +205,21 @@ ActiveRecord::Schema.define(:version => 20090709221527) do
     t.datetime "updated_at"
   end
 
+  create_table "post_pipelines", :force => true do |t|
+    t.integer  "runtype",        :default => 0, :null => false
+    t.integer  "max_mismatches", :default => 1
+    t.integer  "status",         :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "post_pipelines_samples", :id => false, :force => true do |t|
+    t.integer "post_pipeline_id", :null => false
+    t.integer "sample_id",        :null => false
+  end
+
+  add_index "post_pipelines_samples", ["post_pipeline_id", "sample_id"], :name => "index_post_pipelines_samples_on_post_pipeline_id_and_sample_id", :unique => true
+
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "file_folder"
@@ -257,7 +288,16 @@ ActiveRecord::Schema.define(:version => 20090709221527) do
     t.datetime "updated_at"
     t.integer  "eland_parameter_set_id"
     t.boolean  "ready_for_sequencing",     :default => true,        :null => false
+    t.integer  "experiment_id"
+    t.integer  "stp_pipeline_id"
   end
+
+  create_table "samples_stp_pipelines", :id => false, :force => true do |t|
+    t.integer "sample_id",       :null => false
+    t.integer "stp_pipeline_id", :null => false
+  end
+
+  add_index "samples_stp_pipelines", ["sample_id", "stp_pipeline_id"], :name => "index_samples_stp_pipelines_on_sample_id_and_stp_pipeline_id", :unique => true
 
   create_table "schema_info", :id => false, :force => true do |t|
     t.integer "version"
@@ -289,6 +329,22 @@ ActiveRecord::Schema.define(:version => 20090709221527) do
     t.integer  "lock_version",        :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "stp_pipelines", :force => true do |t|
+    t.integer  "type",           :default => 0
+    t.integer  "status",         :default => 0
+    t.integer  "max_mismatches", :default => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "studies", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id"
   end
 
   create_table "user_profiles", :force => true do |t|
