@@ -2,6 +2,8 @@
   <head>
       <title><%= SiteConfig.site_name %> | <%= controller.controller_name %> | <%= controller.action_name %></title>
       <%= stylesheet_link_tag 'mystyles' %>
+      <%= stylesheet_link_tag 'tinytable.css' %>
+      <%= javascript_include_tag 'tinytable-packed' %>
       <%= stylesheet_link_tag 'print', :media => 'print' %>
       <%= javascript_include_tag 'tinytable-packed' %>
       <%= javascript_include_tag 'checkall' %>
