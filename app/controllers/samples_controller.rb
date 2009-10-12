@@ -160,6 +160,45 @@ Get detailed information about a single sample.
     end
   end
 
+########################################################################
+  
+  def browseh
+    (project_id,study_id,experiment_id)=params.values_at(:project_id,:study_id,:experiment_id)
+
+    # ok, what do we actually want to do here?
+    # If only :project_id given, list all projects with chosen project
+    # expanded to show studies.  If :project_id and :study_id given,
+    # show same but with chosen study expanded (to show samples).
+    # If all three given, show the sample as if /samples/display/id
+    # had been called
+
+    @projects=Project.accessible_to_user(current_user)
+
+  end
+
+#-----------------------------------------------------------------------
+
+  def display_sample
+    # display all the details of a specific sample, including post-pipeline info
+  end
+
+
+########################################################################
+# run the stp pipeline on a group of samples
+# NOTE: params[:id] actually refers to a experiment.id, NOT a sample.id
+# View for this action should call StpPipeline#run (or the controller run?)
+
+  def setup_stp
+    @experiment=Experiment.find(params[:id])
+    @samples=@experiment.samples
+  end
+
+  def run_stp
+  end
+
+
+########################################################################
+
   def search
     accessible_samples = Sample.accessible_to_user(current_user)
     search_samples = Sample.find_by_sanitized_conditions(params)
