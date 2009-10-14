@@ -1,0 +1,20 @@
+
+<h3>Pipeline Parameters:</h3>
+<div>
+  Max. alignnment mismatches: &nbsp;
+  <%= radio_button :post_pipeline, :max_mismatches, 1, {:checked=>true} %>
+  <%= label_tag :max_mismatches, 1  %>
+
+  <%= radio_button :post_pipeline, :max_mismatches, 2 %>
+  <%= label_tag(:max_mismatches, 2) %>
+
+  <%= radio_button :post_pipeline, :max_mismatches, 3 %>
+  <%= label_tag(:max_mismatches, 3) %>
+</div>
+<div>
+<!-- I swear to god I tried to use the select helper and couldn't get it to work -->
+Run type: <select name='post_pipeline[type]'><% i=0; PostPipeline.type_names.each do |t| %>
+<option value='<%= i %>'><%= t %> </option>
+<% i+=1; end %>
+</select>
+</div>

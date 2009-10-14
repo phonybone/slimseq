@@ -1,0 +1,9 @@
+<h2>Launch pipeline for sample <%= @sample.name_on_tube %></h2>
+
+<%= render :partial=>'experiments/pps_for_sample', :locals=>{:sample=>@sample} %>
+
+<% form_for :post_pipeline, :url=>{:controller=>:post_pipelines, :action=>:launch_sample, :id=>nil} do |form| %>
+<%= hidden_field_tag :sample_id, @sample.id %>
+<%= render :partial=>'experiments/post_pipeline_params' %>
+<p><%= form.submit "Launch Pipeline" %></p>
+<% end %>
