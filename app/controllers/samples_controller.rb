@@ -178,23 +178,11 @@ Get detailed information about a single sample.
 
 #-----------------------------------------------------------------------
 
-  def display_sample
-    # display all the details of a specific sample, including post-pipeline info
+  def pipeline
+    @sample=Sample.find(params[:id])
   end
-
 
 ########################################################################
-# run the stp pipeline on a group of samples
-# NOTE: params[:id] actually refers to a experiment.id, NOT a sample.id
-# View for this action should call StpPipeline#run (or the controller run?)
-
-  def setup_stp
-    @experiment=Experiment.find(params[:id])
-    @samples=@experiment.samples
-  end
-
-  def run_stp
-  end
 
 
 ########################################################################

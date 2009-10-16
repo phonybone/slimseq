@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091011181116) do
+ActiveRecord::Schema.define(:version => 20091014184254) do
 
   create_table "charge_periods", :force => true do |t|
     t.string   "name"
@@ -211,14 +211,8 @@ ActiveRecord::Schema.define(:version => 20091011181116) do
     t.integer  "status",         :default => 0, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "sample_id"
   end
-
-  create_table "post_pipelines_samples", :id => false, :force => true do |t|
-    t.integer "post_pipeline_id", :null => false
-    t.integer "sample_id",        :null => false
-  end
-
-  add_index "post_pipelines_samples", ["post_pipeline_id", "sample_id"], :name => "index_post_pipelines_samples_on_post_pipeline_id_and_sample_id", :unique => true
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -289,7 +283,6 @@ ActiveRecord::Schema.define(:version => 20091011181116) do
     t.integer  "eland_parameter_set_id"
     t.boolean  "ready_for_sequencing",     :default => true,        :null => false
     t.integer  "experiment_id"
-    t.integer  "stp_pipeline_id"
   end
 
   create_table "samples_stp_pipelines", :id => false, :force => true do |t|

@@ -18,8 +18,7 @@ class Sample < ActiveRecord::Base
   has_many :sample_terms, :dependent => :destroy
   has_many :sample_texts, :dependent => :destroy
 
-#  has_and_belongs_to_many :stp_pipelines
-  has_and_belongs_to_many :post_pipelines
+  has_many :post_pipelines
     
 
   validates_presence_of :sample_description, :name_on_tube, :submission_date, :budget_number,
