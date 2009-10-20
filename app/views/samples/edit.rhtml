@@ -2,6 +2,7 @@
 <%= error_messages_for_samples %>
 
 <h2>Editing Sample</h2>
+<%= link_to "Post Processing Pipeline", :controller=>:samples, :action=>:pipeline, :id=>@sample.id %>
 
 <% form_tag sample_path(@sample), :method => :put do -%>
 

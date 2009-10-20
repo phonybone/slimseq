@@ -58,6 +58,7 @@ class PostPipelinesController < ApplicationController
   # PUT /post_pipelines/1.xml
   def update
     @post_pipeline = PostPipeline.find(params[:id])
+    logger.info "params are #{params.inspect}"
 
     respond_to do |format|
       if @post_pipeline.update_attributes(params[:post_pipeline])
@@ -83,15 +84,29 @@ class PostPipelinesController < ApplicationController
     end
   end
 
-  def launch
-    @pipeline=PostPipeline.create(params[:post_pipeline]);
-
-    # create associations between pipeline object and samples:
-    params[:include_sample].each do |sid|
-      @pipeline.samples << Sample.find(sid)
-    end
-
-    redirect_to @pipeline
+  def launch_sample
+    sample=Sample.find params[:sample_id]
+    pp=PostPipeline.new(params[:post_pipeline])
+    pp.sample_id=sample.id
+    pp.save
+    pp.launch
+    redirect_to :controller=>:samples, :action=>:pipeline, :id=>sample.id
   end
 
+  def launch_exp
+    # create a pipeline object for each sample:
+    sample_ids=params[:include_sample]
+    exp=Experiment.find(params[:experiment_id])
+
+    sample_ids.each do |sid|
+      pp=PostPipeline.new(params[:post_pipeline])
+      pp.sample_id=sid
+      pp.save
+      pp.launch
+    end
+    flash[:notice]="#{sample_ids.length} Pipelines launched"
+    
+    redirect_to :controller=>:experiments, :action=>:pipeline, :id=>exp.id
+  end
+  
 end
