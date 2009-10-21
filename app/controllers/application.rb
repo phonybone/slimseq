@@ -16,4 +16,6 @@ class ApplicationController < ActionController::Base
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   # protect_from_forgery # :secret => 'c1e0cc867735b750b889ccc506dd107f'
+
+  require 'array_helpers'
 end
