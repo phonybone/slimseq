@@ -1,8 +1,8 @@
 
 <h3>Pipeline Parameters:</h3>
-<div>
-  Max. alignnment mismatches: &nbsp;
-  <%= radio_button :post_pipeline, :max_mismatches, 1, {:checked=>true} %>
+<table>
+  <tr><td>Max. alignnment mismatches: &nbsp;</td>
+  <td><%= radio_button :post_pipeline, :max_mismatches, 1, {:checked=>true} %>
   <%= label_tag :max_mismatches, 1  %>
 
   <%= radio_button :post_pipeline, :max_mismatches, 2 %>
@@ -10,11 +10,14 @@
 
   <%= radio_button :post_pipeline, :max_mismatches, 3 %>
   <%= label_tag(:max_mismatches, 3) %>
-</div>
-<div>
-<!-- I swear to god I tried to use the select helper and couldn't get it to work -->
-Run type: <select name='post_pipeline[type]'><% i=0; PostPipeline.type_names.each do |t| %>
-<option value='<%= i %>'><%= t %> </option>
-<% i+=1; end %>
-</select>
-</div>
+</td></tr>
+<tr>
+  <td><%= label_tag :run_type, 'Run Type' %></td>
+  <td><%= select('post_pipeline','run_type',PostPipeline.type_names.as_indexed_pairs) %></td>
+</tr>
+
+<tr>
+  <td><%= label_tag :reference_genome, 'Reference Genome' %></td>
+  <td><%= select('post_pipeline','reference_genome_id', ReferenceGenome.all.map {|rg| [rg.description, rg.id]}) %></td>
+</tr>
+</table>

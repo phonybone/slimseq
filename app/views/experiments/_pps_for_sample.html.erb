@@ -1,4 +1,4 @@
 <span>
-Previously run pipelines: <%= sample.post_pipelines.size %>
+Previously started/running pipelines: <%= sample.post_pipelines.size %>
 <%= sample.post_pipelines.collect { |pp| pp.status_name }.join('&nbsp; | &nbsp;') %>
 </span>

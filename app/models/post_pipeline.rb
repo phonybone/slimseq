@@ -1,4 +1,5 @@
 class PostPipeline < ActiveRecord::Base
+  require 'app_config'
   belongs_to :samples
 
   @@type_names=['Tag Counting','RNA Seq']
@@ -18,9 +19,12 @@ class PostPipeline < ActiveRecord::Base
     @@status_names[self.runtype][self.status]
   end
 
+  @@qsub_writer_names=['write_tc_qsub_file','write_rna_qsub_file']
+
   def launch
     # write one qsub file for each flow_cell_lane of the sample:
-    qsub_files=self.sample.flow_cell_lanes.collect { |fcl| write_qsub_file(fcl) }
+    writer=self.method(@@qsub_writer_names[self.runtype])
+    qsub_files=self.sample.flow_cell_lanes.collect(&writer)
 
     # call qsub one each of the qsub files:
     qsub_files.each {|qfile| system "qsub #{qfile}"}
@@ -33,21 +37,26 @@ class PostPipeline < ActiveRecord::Base
 
   # write out one qsub file for each flow_cell_lane (which has one pipeline_results object):
   # return the filename written
-  def write_qsub_file(flow_cell_lane)
-    qsub_dir='/home/victor/sandbox/rails/slimseq/qsub_files' # fixme: put this into a config file
-    base_dir='/net/dblocal/www/html/devVC/sbeams/lib/scripts/SolexaTrans' # fixme: ditto
-    pipeline_script='process_solexa.pl' # fixme: ditto
+  def write_tc_qsub_file(flow_cell_lane)
+    AppConfig.load
+    qsub_dir=AppConfig.qsub_dir
+    script_dir=AppConfig.script_dir
+    pipeline_script=AppConfig.tc_script
     filename="#{qsub_dir}/sample_#{self.sample.id}_fcl_#{flow_cell_lane.id}.qsub"
     genomes=''                  # fixme: implement this
 
     script_contents=<<"QSUB"
-export base_dir=#{base_dir}
-perl $base_dir/#{pipeline_script} -ssid=#{self.sample.id} -flowcell_id=#{flow_cell_lane.id} #{genomes}
+export script_dir=#{script_dir}
+perl $script_dir/#{pipeline_script} -ssid=#{self.sample.id} -flowcell_id=#{flow_cell_lane.id} #{genomes}
 QSUB
 
     
     File.open(filename,"w") {|f| f.print script_contents } # fixme: what to do with exceptions?
     return filename
+  end
+
+  def write_rna_qsub_file(flow_cell_lane)
+    
   end
 
 end
