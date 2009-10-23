@@ -1,11 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :post_pipelines, :member=>{:launch=>:get}
 
-  map.resources :stp_pipelines
-  map.connect 'stp_pipeline/launch', :controller=>'stp_pipelines', :action=>'launch'
-
-#  map.resources :studies
-
   map.resources :eland_parameter_sets
 
   # backward compatibility with bookmarked login page
@@ -31,9 +26,11 @@ ActionController::Routing::Routes.draw do |map|
   # SLIMseq routes
   map.resources :pipeline_results
 
-  # samples hiearchy fixme: NOT currently doing nesting due to routing confusion
-  map.resources :projects
+  # samples hiearchy 
   map.connect 'projects/:id/new_sample', :controller=>'projects', :action=>'new_study'
+  map.connect 'projects/explore', :controller=>'projects', :action=>'explore'
+  map.connect 'projects/explore_data', :controller=>'projects', :action=>'explore_data'
+  map.resources :projects
   map.resources :studies
   map.resources :experiments
 

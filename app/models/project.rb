@@ -75,4 +75,12 @@ class Project < ActiveRecord::Base
         collect {|x| "#{SiteConfig.site_url}/samples/#{x}" }
     }
   end
+
+  def tree_hash 
+    children=studies.map {|st| st.tree_hash}
+    { :id => "p_#{id}",
+      :text=>name,
+      :children=>children }
+  end
+
 end

@@ -624,6 +624,13 @@ class Sample < ActiveRecord::Base
       :project_uri => "#{SiteConfig.site_url}/projects/#{project.id}"
     }
   end
+
+  def tree_hash
+    {:id=> "s_#{id}",
+     :text => name_on_tube,
+     :leaf => true
+    }
+  end   
   
   def raw_data_paths
     path_string = ""
