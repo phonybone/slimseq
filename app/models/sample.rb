@@ -626,9 +626,11 @@ class Sample < ActiveRecord::Base
   end
 
   def tree_hash
-    {:id=> "s_#{id}",
-     :text => name_on_tube,
-     :leaf => true
+    require 'application_helper'
+    { :id=> "s_#{id}",
+      :text => name_on_tube,
+      :href => "#{SiteConfig.site_url}/samples/#{id}",
+      :leaf => true
     }
   end   
   

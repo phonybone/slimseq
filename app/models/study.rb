@@ -5,7 +5,8 @@ class Study < ActiveRecord::Base
   def tree_hash 
     children=experiments.map {|e| e.tree_hash}
     { :id => "st_#{id}",
-      :text=>name,
+      :text => name,
+      :href => "#{SiteConfig.site_url}/studies/#{id}",
       :children=>children }
   end
 

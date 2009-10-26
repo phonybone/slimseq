@@ -133,12 +133,14 @@ Get detailed information about a single project.
   end
 
   def explore
-    @page_specific_javascripts=%w(ext/adapter/ext/ext-base ext/ext-all-debug ext/explore_project_tree.js)
+    @page_specific_javascripts=%w(/ext/adapter/ext/ext-base /ext/ext-all-debug /ext/explore_project_tree.js)
+    @page_specific_css=%(/ext/resources/css/ext-all.css)
   end
 
   def explore_data
     @projects = Project.accessible_to_user(current_user)
     tree_hash=@projects.map {|p| p.tree_hash }
+    #    dontcare=link_to self.name, self
 
     respond_to do |format|
 #      format.xml  { render :xml => tree_hash }
