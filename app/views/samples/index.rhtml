@@ -7,7 +7,7 @@
 
       <li><%= link_to "Show All #{@samples.size} Samples", :controller => 'samples', :action => 'all' %></li>
 
-      <li><%= link_to "Browse Samples by Project/Study/Experiment", :controller=>:samples, :action=>:browseh %></li>
+      <li><%= link_to "Browse Samples by Project/Study/Experiment", :controller=>:projects, :action=>:explore %></li>
 
       <li><% form_tag( {:action => 'browse'}, {:name => "browse"} ) do -%>
         Browse by<br>
