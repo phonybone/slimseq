@@ -140,7 +140,6 @@ Get detailed information about a single project.
   def explore_data
     @projects = Project.accessible_to_user(current_user)
     tree_hash=@projects.map {|p| p.tree_hash }
-    #    dontcare=link_to self.name, self
 
     respond_to do |format|
 #      format.xml  { render :xml => tree_hash }
