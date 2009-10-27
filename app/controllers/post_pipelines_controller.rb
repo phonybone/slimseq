@@ -86,15 +86,18 @@ class PostPipelinesController < ApplicationController
 
   def launch_sample
     sample=Sample.find params[:sample_id]
-    pp=PostPipeline.new(params[:post_pipeline])
-    pp.sample_id=sample.id
-    pp.save
-    pp.launch
+    fcls=sample.flow_cell_lanes;
+    fcls.each do |fcl|
+      eland_pipeline_result=fcl.pipeline
+      pp=PostPipeline.new(params[:post_pipeline])
+      pp.get_pipeline_result_parameters(fcl).save
+      pp.launch
+    end
     redirect_to :controller=>:samples, :action=>:pipeline, :id=>sample.id
   end
 
   def launch_exp
-    # create a pipeline object for each sample:
+    # create a pipeline object for each flow_cell_lane object of sample
     sample_ids=params[:include_sample]
     exp=Experiment.find(params[:experiment_id])
 

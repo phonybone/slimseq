@@ -4,21 +4,21 @@ class CreatePostPipelines < ActiveRecord::Migration
       t.integer :runtype, :default=>0, :null=>false
       t.integer :max_mismatches, :default=>1
       t.string :name, :null=>false
-      t.integer :status, :default=>0, :null=>false
+      t.string :status, :default=>'Not started', :null=>false
+
+      # going to copy some info from pipeline_result objects for ease of use later:
+      t.integer :pipeline_result_id, :null=>false
+      t.string :working_dir, :null=>false
+      t.string :export_file, :null=>false
+      t.string :ref_genome_path, :null=>false
+      t.string :org_name, :null=>false
 
       t.timestamps
     end
 
-    create_table :post_pipelines_samples, :id=>false do |t|
-      t.integer :post_pipeline_id, :null=>false
-      t.integer :sample_id, :null=>false
-    end
-
-    add_index :post_pipelines_samples, [:post_pipeline_id, :sample_id], :unique=>true
   end
 
   def self.down
-    remove_index :post_pipelines_samples, :column=>[:post_pipeline_id, :sample_id]
     drop_table :post_pipelines
   end
 end

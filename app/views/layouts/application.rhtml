@@ -12,12 +12,12 @@
       <%= javascript_include_tag 'ext/adapter/ext/ext-base' %>
       <%= javascript_include_tag 'ext/ext-all-debug' %>
 
-      <% @page_specific_javascripts.each do |script| %>
+      <% if !@page_specific_javascripts.nil? then @page_specific_javascripts.each do |script| %>
         <%= javascript_include_tag script %>
-      <% end %>
-      <% @page_specific_css.each do |css| %>
+      <% end %><% end %>
+      <% if !@page_specific_css.nil? then @page_specific_css.each do |css| %>
          <%= stylesheet_link_tag css %>
-      <% end %>
+      <% end %><% end %>
 
 
   </head>
