@@ -84,30 +84,63 @@ class PostPipelinesController < ApplicationController
     end
   end
 
-  def launch_sample
-    sample=Sample.find params[:sample_id]
+
+  def make_pipelines(sample)
+    sample=Sample.find params[:sample_id] if sample.nil?
     fcls=sample.flow_cell_lanes;
-    fcls.each do |fcl|
-      eland_pipeline_result=fcl.pipeline
-      pp=PostPipeline.new(params[:post_pipeline])
-      pp.get_pipeline_result_parameters(fcl).save
-      pp.launch
+    n_pipelines=0
+    logger.info "debug: trying to make a pipeline for #{sample.id} (#{fcls.count} fcls)"
+    if (fcls.count == 0)
+      @msgs << "No flow cell lane for '#{sample.name_on_tube}'"
+      return 0
     end
+    fcls.each do |fcl|
+      pp=PostPipeline.new(params[:post_pipeline])
+      pp.get_sample_params(sample) # could possibly incorporate these into constructor...
+      begin
+        pp.get_pipeline_result_params(fcl)
+        pp.name=pp.label
+      rescue RuntimeError => barf
+        if /no pipeline_result/.match barf
+          @msgs << "No (eland) pipeline for #{sample.name_on_tube}"
+        else 
+          raise
+        end
+        next
+      end
+      pp.save
+      #      logger.info "debug: created post_pipeline for #{sample.name_on_tube}: pp id is #{pp.id}"
+      pp.launch
+      n_pipelines+=1            # why doesn't n_pipelines++ work???
+    end
+    n_pipelines
+  end
+
+  # called by views/samples/pipeline.html.erb
+  # also called from launch_exp
+  def launch_sample
+    sample=Sample.find(params[:sample_id])
+    raise "no sample w/id=#{params[:sample_id]}" if sample.nil?
+    @msgs=[]
+    n_pipelines=make_pipelines(sample)
+    @msgs << "#{n_pipelines} pipelines launched"
+    flash[:notice]=@msgs.join('<br />')
     redirect_to :controller=>:samples, :action=>:pipeline, :id=>sample.id
   end
 
-  def launch_exp
+  def launch_exp                # called by views/experiments/pipeline.html.erb
     # create a pipeline object for each flow_cell_lane object of sample
     sample_ids=params[:include_sample]
     exp=Experiment.find(params[:experiment_id])
-
-    sample_ids.each do |sid|
-      pp=PostPipeline.new(params[:post_pipeline])
-      pp.sample_id=sid
-      pp.save
-      pp.launch
+    n_pipelines=0
+    @msgs=[]
+    sample_ids.each do |sid| 
+      sample=Sample.find(sid)
+      n_pipelines+=make_pipelines(sample)
     end
-    flash[:notice]="#{sample_ids.length} Pipelines launched"
+    @msgs << "#{n_pipelines} pipelines launched"
+    flash[:notice]=@msgs.join('<br />')
+
     
     redirect_to :controller=>:experiments, :action=>:pipeline, :id=>exp.id
   end

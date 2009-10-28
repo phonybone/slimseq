@@ -8,6 +8,8 @@ class CreatePostPipelines < ActiveRecord::Migration
 
       # going to copy some info from pipeline_result objects for ease of use later:
       t.integer :pipeline_result_id, :null=>false
+      t.integer :sample_id, :null=>false
+      t.integer :reference_genome_id, :null=>false
       t.string :working_dir, :null=>false
       t.string :export_file, :null=>false
       t.string :ref_genome_path, :null=>false

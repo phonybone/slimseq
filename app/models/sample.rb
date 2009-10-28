@@ -629,7 +629,7 @@ class Sample < ActiveRecord::Base
     require 'application_helper'
     { :id=> "s_#{id}",
       :text => name_on_tube,
-      :href => "#{SiteConfig.site_url}/samples/#{id}",
+      :href => "#{SiteConfig.site_url}/samples/edit/#{id}",
       :leaf => true
     }
   end   

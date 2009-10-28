@@ -206,12 +206,19 @@ ActiveRecord::Schema.define(:version => 20091014184254) do
   end
 
   create_table "post_pipelines", :force => true do |t|
-    t.integer  "runtype",        :default => 0, :null => false
-    t.integer  "max_mismatches", :default => 1
-    t.integer  "status",         :default => 0, :null => false
+    t.integer  "runtype",             :default => 0,             :null => false
+    t.integer  "max_mismatches",      :default => 1
+    t.string   "name",                                           :null => false
+    t.string   "status",              :default => "Not started", :null => false
+    t.integer  "pipeline_result_id",                             :null => false
+    t.integer  "sample_id",                                      :null => false
+    t.integer  "reference_genome_id",                            :null => false
+    t.string   "working_dir",                                    :null => false
+    t.string   "export_file",                                    :null => false
+    t.string   "ref_genome_path",                                :null => false
+    t.string   "org_name",                                       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "sample_id"
   end
 
   create_table "projects", :force => true do |t|
