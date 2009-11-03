@@ -1,3 +1,4 @@
+<h2>Experiment <%= @experiment.name %></h2>
 <p>
   <b>Name:</b>
   <%=h @experiment.name %>
@@ -15,9 +16,10 @@
 
 <p>
   <b>Samples:</b>
-  <% @experiment.samples.each do |sample| %>
-  <%= link_to sample.name_on_tube, sample %> &nbsp; | &nbsp;
-  <% end %>
+  <%= @experiment.samples.collect {|sample|
+      link_to( sample.name_on_tube, :controller=>:samples, :action=>:edit, :id=>sample.id )
+  }.join('&nbsp; | &nbsp');
+  %>
 </p>
 
 <%= link_to 'Edit', edit_experiment_path(@experiment) %> &nbsp; |  &nbsp; 

@@ -212,6 +212,7 @@ ActiveRecord::Schema.define(:version => 20091014184254) do
     t.string   "status",              :default => "Not started", :null => false
     t.integer  "pipeline_result_id",                             :null => false
     t.integer  "sample_id",                                      :null => false
+    t.integer  "flow_cell_lane_id",                              :null => false
     t.integer  "reference_genome_id",                            :null => false
     t.string   "working_dir",                                    :null => false
     t.string   "export_file",                                    :null => false

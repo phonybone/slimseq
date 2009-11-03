@@ -6,7 +6,7 @@ class Study < ActiveRecord::Base
     children=experiments.map {|e| e.tree_hash}
     { :id => "st_#{id}",
       :text => name,
-      :href => "#{SiteConfig.site_url}/studies/#{id}",
+      :href => "#{SiteConfig.site_url}/studies/edit/#{id}",
       :children=>children }
   end
 

@@ -96,22 +96,31 @@ class PostPipelinesController < ApplicationController
     end
     fcls.each do |fcl|
       pp=PostPipeline.new(params[:post_pipeline])
-      pp.get_sample_params(sample) # could possibly incorporate these into constructor...
+      pp.get_sample_params!(sample) # could possibly incorporate these into constructor...
       begin
-        pp.get_pipeline_result_params(fcl)
+        logger.info "debug: about to call get_pipeline_result_params!(#{fcl.inspect})"
+        pp.get_pipeline_result_params!(fcl)
         pp.name=pp.label
+        logger.info "debug: gprp(fcl) returned: pp is #{pp.inspect}"
       rescue RuntimeError => barf
+        logger.info "debug: barf is #{barf}"
         if /no pipeline_result/.match barf
           @msgs << "No (eland) pipeline for #{sample.name_on_tube}"
         else 
+          logger.info "debug: about to raise #{$!}"
           raise
         end
         next
       end
       pp.save
       #      logger.info "debug: created post_pipeline for #{sample.name_on_tube}: pp id is #{pp.id}"
-      pp.launch
-      n_pipelines+=1            # why doesn't n_pipelines++ work???
+      begin
+        pp.launch
+        n_pipelines+=1            # why doesn't n_pipelines++ work???
+      rescue RuntimeError => barf
+        @msgs << barf
+        pp.delete
+      end
     end
     n_pipelines
   end

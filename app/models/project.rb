@@ -80,7 +80,7 @@ class Project < ActiveRecord::Base
     children=studies.map {|st| st.tree_hash}
     { :id => "p_#{id}",
       :text=>name,
-      :href => "#{SiteConfig.site_url}/projects/#{id}",
+      :href => "#{SiteConfig.site_url}/projects/edit/#{id}",
       :children=>children }
   end
 

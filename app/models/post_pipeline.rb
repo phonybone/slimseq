@@ -3,6 +3,8 @@ class PostPipeline < ActiveRecord::Base
   belongs_to :pipeline_result
   belongs_to :sample
   belongs_to :reference_genome
+  belongs_to :flow_cell_lane
+  
 
   @@type_names=['Tag Counting','RNA Seq']
   def self.type_names
@@ -16,7 +18,7 @@ class PostPipeline < ActiveRecord::Base
 
 
   def label
-    "sample_#{@sample_id}_fcl_#{@flow_cell_lane_id}"
+    "sample_#{sample_id}_fcl_#{flow_cell_lane_id}"
   end
 
   def qsub_params
@@ -32,13 +34,20 @@ QSUB_PARAMS
   end
 
   def launch
-    raise "about to launch #{self.inspect}"
+    Dir.mkdir(working_dir) unless FileTest.directory?(working_dir)
+
     # write one qsub file for each flow_cell_lane/pipeline_result of the sample:
     writer=self.method(@@qsub_writer_names[self.runtype]) # returns a list of qsub filenames
     qsub_files=self.sample.flow_cell_lanes.collect(&writer)
 
     # call qsub one each of the qsub files:
-    qsub_files.each {|qfile| system "qsub #{qfile}"}
+    qsub_files.each {|qfile| 
+      logger.info "debug: qsub #{qfile}"
+      rc=system "qsub #{qfile}"
+      if (!rc) 
+        raise "#{sample.name_on_tube}: failed to launch via qsub (#{$?})"
+      end
+    }
   end
 
   # get the pp's sample object; shouldn't this method have been created via the belongs_to declaration????
@@ -46,33 +55,35 @@ QSUB_PARAMS
     Sample.find(self.sample_id)
   end
 
-  def get_sample_params(sample)
+  def get_sample_params!(sample)
     ref_gen=sample.reference_genome
-    @sample_id=sample.id
-    @ref_genome_path=ref_gen.fasta_path # fixme: need to change this to our own genomes, or change existing db
-    @org_name=ref_gen.organism.name
+    self.sample_id=sample.id
+    self.ref_genome_path=ref_gen.fasta_path # fixme: need to change this to our own genomes, or change existing db
+    self.org_name=ref_gen.organism.name
     self
   end
 
-  def get_pipeline_result_params(flow_cell_lane)
+  def get_pipeline_result_params!(flow_cell_lane)
     # get the most recent pipeline_result object for this fcl:
     pipeline_result=PipelineResult.find(:all, :conditions=>{:flow_cell_lane_id=>flow_cell_lane.id}, 
                                         :order=>'updated_at ASC',:limit=>1)[0]
     if (pipeline_result.nil?)
       raise "no pipeline_result w/id=#{flow_cell_lane.id}"
     else
-      @pipeline_result_id=pipeline_result.id
-      @working_dir=File.dirname(pipeline_result.eland_output_file)
-      @export_file=pipeline_result.eland_output_file
+      self.flow_cell_lane_id=flow_cell_lane.id
+      self.pipeline_result_id=pipeline_result.id
+      self.working_dir=File.dirname(pipeline_result.eland_output_file)+'/post_pipeline'
+      self.export_file=pipeline_result.eland_output_file
+      logger.info "debug: get_pipeline_result_params: self is #{self.inspect}"
     end
     self
   end
 
+########################################################################
+
   # write out one qsub file for each flow_cell_lane (which has one pipeline_results object):
   # return the filename written
   def write_tc_qsub_file(flow_cell_lane)
-    get_pipeline_result_params(flow_cell_lane)
-
     AppConfig.load
     script_dir=AppConfig.script_dir
     pipeline_script=AppConfig.tc_script
@@ -97,16 +108,18 @@ QSUB
 
   def write_rna_qsub_file(flow_cell_lane)
     AppConfig.load
-    script=AppConfig.rna_script
-    filename="#{working_dir}/#{label}.qsub"
-    qsub_params=qsub_params(label)
+    qsub_file="#{working_dir}/#{label}.qsub"
 
-    script_contents=<<"QSUB"
-#!/bin/sh
-#{qsub_params}
+    qsub_template=AppConfig.rna_seq_template
+    old_irs=$/
+    $/="you should never see this string"                 
+    template='';
+    File.open(qsub_template) {|file| template=file.gets } # slurp!
+    $/=old_irs
 
-sh #{script} #{@id} #{@eland_output_file} #{ref_genome} #{@org_name}
-QSUB
+    script=eval template
+    File.open(qsub_file, "w") {|file| file.puts script }
+    return qsub_file
   end
 
 
