@@ -15,13 +15,21 @@
       <% if !@page_specific_javascripts.nil? then @page_specific_javascripts.each do |script| %>
         <%= javascript_include_tag script %>
       <% end %><% end %>
+
+      <% if !@page_specific_inline_javascripts.nil? then @page_specific_inline_javascripts.each do |script| %>
+        <script type='text/javascript'>
+        <%= script %>
+        </script>
+     <% end %><% end %>
+
+
       <% if !@page_specific_css.nil? then @page_specific_css.each do |css| %>
          <%= stylesheet_link_tag css %>
       <% end %><% end %>
 
 
   </head>
-  <body>
+  <body <% if @onload %><%= "onload='#{@onload}'" %><% end %>
     <div id="title_bar">
       <h1><%= SiteConfig.find(1).site_name %></h1>
     </div>
