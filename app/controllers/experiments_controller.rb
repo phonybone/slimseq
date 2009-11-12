@@ -97,8 +97,6 @@ class ExperimentsController < ApplicationController
     # might be assigned to other experiments, and some might not be
     # assigned to anything.
     @my_samples=@experiment.samples
-
-    
   end
 
 
@@ -108,7 +106,6 @@ class ExperimentsController < ApplicationController
     id2sample={}
     samples.each do |s| 
       id2sample[s.id]=s
-      logger.info "debug: id2sample[#{s.id}] is #{s}"
     end
 
     params.each_pair do |k,v|
@@ -159,7 +156,6 @@ class ExperimentsController < ApplicationController
     @page_specific_inline_javascripts << "var opts_array=#{@opts_array_values.to_json};\n"
     @page_specific_javascripts=['/javascripts/set_select_options.js']
 
-#    @onload='alert("hi there")'
     @onload=<<"ONLOAD"
 var s=document.getElementById("post_pipeline_runtype");
 s.onChange=set_select_options;

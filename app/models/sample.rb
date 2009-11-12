@@ -609,6 +609,7 @@ class Sample < ActiveRecord::Base
       :desired_number_of_cycles => desired_read_length,
       :alignment_start_position => alignment_start_position,
       :alignment_end_position => alignment_end_position,
+      :reference_genome_id => reference_genome_id,
       :reference_genome => {
         :name => reference_genome.name,
         :organism => reference_genome.organism.name

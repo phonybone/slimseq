@@ -4,6 +4,21 @@
 </p>
 
 <p>
+  <b>Sample:</b>
+  <%= link_to @post_pipeline.sample.name_on_tube, @post_pipeline.sample %>
+</p>
+
+<p>
+  <b>Flow Cell:</b>
+  <%= link_to @post_pipeline.flow_cell_lane.lane_number, @post_pipeline.flow_cell_lane %>
+</p>
+
+<p>
+  <b>ELAND export file:</b>
+  <%= @post_pipeline.export_file %>
+</p>
+
+<p>
   <b>Max mismatches:</b>
   <%=h @post_pipeline.max_mismatches %>
 </p>
@@ -13,17 +28,31 @@
   <%=h @post_pipeline.status %>
 </p>
 
-<div>
-<% if @post_pipeline.samples.length > 0 %>
-Samples for this pipeline:<ul>
-<% @post_pipeline.samples.each do |s| %>
-<li><%= link_to s.name_on_tube, s %></li>
+<p>
+  <b>Stats:</b>
+  <pre><%=h @post_pipeline.stats %></pre>
+</p>
+
+<h3>Fixme: only display following info if status == 'complete'</h3>
+<p>
+  <b>Log Files:</b><ul>
+  <li><b>Output:</b> <%= @post_pipeline.working_dir %>/<%= @post_pipeline.label %>.out</li>
+  <li><b>Error:</b> <%= @post_pipeline.working_dir %>/<%= @post_pipeline.label %>.err</li>
+</ul></p>
+
+<% if @post_pipeline.runtype == 0 %>
+<% elsif @post_pipeline.runtype == 1 %>
+<p>
+  <b>Final RPKM File:</b>
+  <%= @post_pipeline.working_dir %>/rds/<%= File.basename(@post_pipeline.export_file) %>.final.rpkm
+</p>
+
+<p>
+  <b>ERCC Normalized Output:</b>
+  <%= @post_pipeline.working_dir %>/<%= File.basename(@post_pipeline.export_file) %>.bowtie.normalized
+</p>
+
 <% end %>
-</ul>
-<% else %>
-No samples for this pipeline(?)
-<% end %>
-</div>
 
 <%= link_to 'Edit', edit_post_pipeline_path(@post_pipeline) %> |
 <%= link_to 'Back', post_pipelines_path %>

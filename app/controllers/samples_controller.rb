@@ -182,6 +182,19 @@ Get detailed information about a single sample.
 
   def pipeline
     @sample=Sample.find(params[:id])
+
+    @opts_array_values=[]
+    @opts_array_values[0]=ReferenceGenome.find(:all).map{|rf| [rf.id,rf.description]}
+    @opts_array_values[1]=RnaSeqRefGenome.find(:all).map{|rf| [rf.id,rf.description]}
+
+    @page_specific_inline_javascripts=[]
+    @page_specific_inline_javascripts << "var opts_array=#{@opts_array_values.to_json};\n"
+    @page_specific_javascripts=['/javascripts/set_select_options.js']
+
+    @onload=<<"ONLOAD"
+var s=document.getElementById("post_pipeline_runtype");
+s.onChange=set_select_options;
+ONLOAD
   end
 
 ########################################################################

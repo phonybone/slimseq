@@ -5,6 +5,14 @@ class PostPipeline < ActiveRecord::Base
   belongs_to :reference_genome
   belongs_to :flow_cell_lane
   
+  def stats_file
+    File.join(working_dir,'stats')
+  end
+
+  def stats()
+    return "no stats available" unless FileTest.readable?(stats_file)
+    stats=File.read(stats_file)
+  end
 
   @@type_names=['Tag Counting','RNA Seq']
   def self.type_names
@@ -42,7 +50,6 @@ QSUB_PARAMS
 
     # call qsub one each of the qsub files:
     qsub_files.each {|qfile| 
-      logger.info "debug: qsub #{qfile}"
       rc=system "qsub #{qfile}"
       if (!rc) 
         raise "#{sample.name_on_tube}: failed to launch via qsub (#{$?})"
@@ -74,7 +81,6 @@ QSUB_PARAMS
       self.pipeline_result_id=pipeline_result.id
       self.working_dir=File.dirname(pipeline_result.eland_output_file)+'/post_pipeline'
       self.export_file=pipeline_result.eland_output_file
-      logger.info "debug: get_pipeline_result_params: self is #{self.inspect}"
     end
     self
   end
@@ -96,7 +102,7 @@ QSUB_PARAMS
 #{qsub_params}
 
 export script_dir=#{script_dir}
-perl $script_dir/#{pipeline_script} -ssid=#{@sample_id} -flowcell_id=#{flow_cell_lane.id} #{genomes}
+perl $script_dir/#{pipeline_script} -ssid=#{sample.id} -flowcell_id=#{flow_cell_lane.id} #{genomes}
 QSUB
 
     
@@ -110,9 +116,12 @@ QSUB
     AppConfig.load
     qsub_file="#{working_dir}/#{label}.qsub"
 
+    pp_id=id
+    ref_genome=get_rnaseq_ref_genome().name
+    
     qsub_template=AppConfig.rna_seq_template
     old_irs=$/
-    $/="you should never see this string"                 
+    $/="this is a very unlikely string to appear in the template"
     template='';
     File.open(qsub_template) {|file| template=file.gets } # slurp!
     $/=old_irs
@@ -122,6 +131,9 @@ QSUB
     return qsub_file
   end
 
-
+  def get_rnaseq_ref_genome
+    # so we actually use the refereence_genome_id as a key into a different table.
+    RnaSeqRefGenome.find(reference_genome_id)
+  end
 
 end

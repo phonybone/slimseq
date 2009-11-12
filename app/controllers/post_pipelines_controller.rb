@@ -15,6 +15,8 @@ class PostPipelinesController < ApplicationController
   def show
     @post_pipeline = PostPipeline.find(params[:id])
 
+    
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @post_pipeline }
@@ -40,6 +42,7 @@ class PostPipelinesController < ApplicationController
   # POST /post_pipelines
   # POST /post_pipelines.xml
   def create
+    logger.info "debug: I'm a baby dwagon!";
     @post_pipeline = PostPipeline.new(params[:post_pipeline])
 
     respond_to do |format|
@@ -89,7 +92,6 @@ class PostPipelinesController < ApplicationController
     sample=Sample.find params[:sample_id] if sample.nil?
     fcls=sample.flow_cell_lanes;
     n_pipelines=0
-    logger.info "debug: trying to make a pipeline for #{sample.id} (#{fcls.count} fcls)"
     if (fcls.count == 0)
       @msgs << "No flow cell lane for '#{sample.name_on_tube}'"
       return 0
@@ -98,22 +100,17 @@ class PostPipelinesController < ApplicationController
       pp=PostPipeline.new(params[:post_pipeline])
       pp.get_sample_params!(sample) # could possibly incorporate these into constructor...
       begin
-        logger.info "debug: about to call get_pipeline_result_params!(#{fcl.inspect})"
         pp.get_pipeline_result_params!(fcl)
         pp.name=pp.label
-        logger.info "debug: gprp(fcl) returned: pp is #{pp.inspect}"
       rescue RuntimeError => barf
-        logger.info "debug: barf is #{barf}"
         if /no pipeline_result/.match barf
           @msgs << "No (eland) pipeline for #{sample.name_on_tube}"
         else 
-          logger.info "debug: about to raise #{$!}"
           raise
         end
         next
       end
       pp.save
-      #      logger.info "debug: created post_pipeline for #{sample.name_on_tube}: pp id is #{pp.id}"
       begin
         pp.launch
         n_pipelines+=1            # why doesn't n_pipelines++ work???
