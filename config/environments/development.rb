@@ -16,11 +16,14 @@ config.action_controller.perform_caching             = false
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
-require 'ruby-debug'
+config.gem "ruby-debug", :version => "0.10.3"
 
 # Tell ActionMailer not to deliver emails to the real world.
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
+<<<<<<< HEAD:config/environments/development.rb
 
 require "ruby-debug"
+=======
+>>>>>>> 26b65bcf7299389846d9bda11cc9f5d0130246a4:config/environments/development.rb
