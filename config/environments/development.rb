@@ -22,8 +22,4 @@ config.gem "ruby-debug", :version => "0.10.3"
 # The :test delivery method accumulates sent emails in the
 # ActionMailer::Base.deliveries array.
 config.action_mailer.delivery_method = :test
-<<<<<<< HEAD:config/environments/development.rb
-
 require "ruby-debug"
-=======
->>>>>>> 26b65bcf7299389846d9bda11cc9f5d0130246a4:config/environments/development.rb
