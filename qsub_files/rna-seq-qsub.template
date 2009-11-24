@@ -1,7 +1,8 @@
 "#!/bin/sh
 
 #PBS -N #{label}
-#PBS -M bea
+#PBS -m bea
+#PBS -M #{email}
 #PBS -o /users/vcassen/software/Solexa/qsub_output/#{label}/#{label}.out
 #PBS -e /users/vcassen/software/Solexa/qsub_output/#{label}/#{label}.err
 #PBS -l walltime=72:00:00
@@ -47,14 +48,14 @@ erange_dir=$rnaseq_dir/commoncode
 jdrf_dir=/jdrf/data_var/solexa
 genomes_dir=$jdrf_dir/genomes
 
-update_status=$script_dir/update_pipeline_status.pl # needs pp_id and status
+post_slimseq=$script_dir/post_to_slimseq.pl # needs pp_id and status
 
 ########################################################################
 ## translate export.txt file to fasta format
 export2fasta=$script_dir/export2fasta.pl
 cmd=\"$export2fasta $base_directory/$export_file $working_dir/$export_file.fa\"
 echo \"translation cmd: $cmd\"
-perl $update_status -pp_id $pp_id -field status -value 'extracting reads from ELAND file'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'extracting reads from ELAND file'
 time $cmd
 # this write $working_file/$export_file.fa
 
@@ -72,7 +73,7 @@ export BOWTIE_INDEXES=\"$genomes_dir/$org\"
 
 cmd=\"$bowtie_exe $ref_genome -v 2 -k 11 -m 10 -t --best -f $reads_file --unfa $unmapped --maxfa $repeats $bowtie_output\"
 echo \"alignment cmd: $cmd\"
-perl $update_status -pp_id $pp_id -field status -value 'aligning reads (bowtie)'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'aligning reads (bowtie)'
 time $cmd
 
 echo $bowtie_output written
@@ -103,32 +104,32 @@ echo \"rds cmd: $cmd\"
 
 echo $output written
 echo
-perl $update_status -pp_id $pp_id -field status -value 'Creating RDS files from alignment'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'Creating RDS files from alignment'
 time $cmd
 
 ########################################################################
 ## runStandardAnalysisNFS-cmd.sh:
 
 echo erange cmd: $erange_dir/runStandardAnalysisNFS.sh $org $working_dir/rds/$export_file $jdrf_dir/genomes/mouse/repeats_mask.db 5000
-perl $update_status -pp_id $pp_id -field status -value 'running ELAND'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'running ELAND'
 time sh $erange_dir/runStandardAnalysisNFS.sh $org $working_dir/rds/$export_file $jdrf_dir/genomes/mouse/repeats_mask.db 5000
 
 ########################################################################
 ## Count total aligned reads:
-perl $update_status -pp_id $pp_id -field status -value 'counting total reads'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'counting total reads'
 aligned_reads=`wc -l $bowtie_output | cut -f1 -d\  `
-perl $update_status -pp_id $pp_id -field total_aligned_reads -value $aligned_reads
+perl $post_slimseq -type post_pipelines -id $pp_id -field total_aligned_reads -value $aligned_reads
 
 ########################################################################
 ## Normalize ERCC
-perl $update_status -pp_id $pp_id -field status -value 'normalizing ERCC seqs'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'normalizing ERCC seqs'
 cmd=\"$script_dir/normalize_erccs.pl -bowtie_output $bowtie_output -total_aligned_reads $aligned_reads\"
 time $cmd
 
 ########################################################################
 ## Stats:
 
-perl $update_status -pp_id $pp_id -field status -value 'generating stats'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'generating stats'
 
 final_rpkm_file=$working_dir/rds/$export_file.final.rpkm
 n_genes=`wc -l $final_rpkm_file | cut -f1 -d\  '
@@ -139,8 +140,6 @@ total aligned reads: $aligned_reads
 number of genes observed: $n_genes
 EOF
 
-perl $update_status -pp_id $pp_id -field stats_file -value '$working_dir/stats'
-perl $update_status -pp_id $pp_id -field status -value 'Finished'
-
-
+perl $post_slimseq -type post_pipelines -id $pp_id -field stats_file -value '$working_dir/stats'
+perl $post_slimseq -type post_pipelines -id $pp_id -field status -value 'Finished'
 "

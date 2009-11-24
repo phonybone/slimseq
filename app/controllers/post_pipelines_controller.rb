@@ -15,8 +15,6 @@ class PostPipelinesController < ApplicationController
   def show
     @post_pipeline = PostPipeline.find(params[:id])
 
-    
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @post_pipeline }

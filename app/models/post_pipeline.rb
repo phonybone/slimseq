@@ -6,11 +6,14 @@ class PostPipeline < ActiveRecord::Base
   belongs_to :flow_cell_lane
   
   def stats_file
-    File.join(working_dir,'stats')
+    project_name=self.sample.project.name
+    sample_id=self.sample.id
+    stats_file="#{project_name}.#{sample_id}.stats"
+    File.join(working_dir,stats_file)
   end
 
   def stats()
-    return "no stats available" unless FileTest.readable?(stats_file)
+    return "no stats available (#{stats_file})" unless FileTest.readable?(stats_file)
     stats=File.read(stats_file)
   end
 
