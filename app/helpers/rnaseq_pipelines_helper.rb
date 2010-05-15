@@ -1,0 +1,2 @@
+module RnaseqPipelinesHelper
+end

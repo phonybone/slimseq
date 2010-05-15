@@ -2,7 +2,7 @@
 
 <p>
   <b>Sample:</b>
-  <%= link_to @post_pipeline.sample.name_on_tube, edit_sample_path(@post_pipeline.sample) %>
+  <%= link_to @post_pipeline.sample.sample_mixture.name_on_tube, edit_sample_mixture_path(@post_pipeline.sample) %>
 </p>
 
 <p>
@@ -22,7 +22,7 @@
 
 <p>
   <b>Alignment algorithm:</b>
-  <%=h @post_pipeline.sample.post_pipeline_aligner %>
+  <%=h @post_pipeline.sample.sample_mixture.post_pipeline_aligner %>
 </p>
 
 <p>

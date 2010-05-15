@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091008221500) do
+ActiveRecord::Schema.define(:version => 20100511184909) do
 
   create_table "charge_periods", :force => true do |t|
     t.string   "name"
@@ -69,6 +69,18 @@ ActiveRecord::Schema.define(:version => 20091008221500) do
     t.integer  "study_id"
   end
 
+  create_table "external_services", :force => true do |t|
+    t.string   "uri",                        :default => "",    :null => false
+    t.boolean  "authentication",             :default => false, :null => false
+    t.string   "username"
+    t.string   "password"
+    t.boolean  "sample_status_notification", :default => false, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "json_style"
+    t.string   "authentication_method"
+  end
+
   create_table "flow_cell_lanes", :force => true do |t|
     t.integer  "flow_cell_id"
     t.integer  "lane_number"
@@ -84,12 +96,8 @@ ActiveRecord::Schema.define(:version => 20091008221500) do
     t.float    "percent_pass_filter_clusters"
     t.float    "percent_align"
     t.float    "percent_error"
-  end
-
-  create_table "flow_cell_lanes_samples", :id => false, :force => true do |t|
-    t.integer "sample_id"
-    t.integer "flow_cell_lane_id"
-    t.integer "lock_version",      :default => 0
+    t.integer  "number_of_cycles"
+    t.integer  "sample_mixture_id"
   end
 
   create_table "flow_cells", :force => true do |t|
@@ -147,6 +155,20 @@ ActiveRecord::Schema.define(:version => 20091008221500) do
     t.datetime "updated_at"
   end
 
+  create_table "multiplex_codes", :force => true do |t|
+    t.string   "sequence"
+    t.integer  "multiplexing_scheme_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "multiplexing_schemes", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "naming_elements", :force => true do |t|
     t.string   "name"
     t.integer  "element_order"
@@ -195,6 +217,28 @@ ActiveRecord::Schema.define(:version => 20091008221500) do
     t.integer  "lock_version",      :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "archived",          :default => false, :null => false
+  end
+
+  create_table "post_pipelines", :force => true do |t|
+    t.integer  "runtype",             :default => 0,             :null => false
+    t.integer  "max_mismatches",      :default => 1
+    t.string   "name",                :default => "",            :null => false
+    t.string   "status",              :default => "Not started", :null => false
+    t.integer  "pipeline_result_id",  :default => 0,             :null => false
+    t.integer  "sample_id",           :default => 0,             :null => false
+    t.integer  "flow_cell_lane_id",   :default => 0,             :null => false
+    t.integer  "reference_genome_id", :default => 0,             :null => false
+    t.string   "working_dir",         :default => "",            :null => false
+    t.string   "export_file",         :default => "",            :null => false
+    t.string   "ref_genome_path",     :default => "",            :null => false
+    t.string   "org_name",            :default => "",            :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "qsub_job_id_bak"
+    t.string   "align_params_bak"
+    t.string   "align_params"
+    t.integer  "qsub_job_id"
   end
 
   create_table "projects", :force => true do |t|
@@ -209,19 +253,90 @@ ActiveRecord::Schema.define(:version => 20091008221500) do
   create_table "reference_genomes", :force => true do |t|
     t.string   "name"
     t.integer  "organism_id"
-    t.integer  "lock_version", :default => 0
+    t.integer  "lock_version",          :default => 0
     t.string   "fasta_path"
-    t.string   "description",  :default => ""
+    t.string   "description",           :default => ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "filter_reference_path"
+    t.string   "gene_gtf_path"
+  end
+
+  create_table "rna_seq_ref_genomes", :force => true do |t|
+    t.string  "path",        :default => "", :null => false
+    t.string  "name",        :default => "", :null => false
+    t.string  "org",         :default => "", :null => false
+    t.string  "description"
+    t.string  "align"
+    t.integer "read_length"
+  end
+
+  create_table "rnaseq_pipelines", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "status"
+    t.integer  "sample_mixture_id"
+    t.integer  "flow_cell_lane_id"
+    t.integer  "pipeline_result_id"
+    t.string   "working_dir"
+    t.string   "export_file"
+    t.string   "align_params"
+    t.string   "org"
+    t.string   "ref_genome"
+    t.integer  "max_mismatches"
+    t.integer  "qsub_job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rnaseq_stats", :force => true do |t|
+    t.integer  "post_pipeline_id", :default => 0, :null => false
+    t.integer  "total_reads",      :default => 0, :null => false
+    t.integer  "total_aligned",    :default => 0, :null => false
+    t.integer  "unique_aligned",   :default => 0, :null => false
+    t.integer  "spliced_aligned",  :default => 0, :null => false
+    t.integer  "multi_aligned",    :default => 0, :null => false
+    t.integer  "n_genes",          :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rnaseq_stats", ["post_pipeline_id"], :name => "post_pipeline_id", :unique => true
+
+  create_table "sample_mixtures", :force => true do |t|
+    t.string   "name_on_tube"
+    t.string   "sample_description"
+    t.integer  "project_id"
+    t.string   "budget_number"
+    t.integer  "desired_read_length"
+    t.integer  "alignment_start_position", :default => 1
+    t.integer  "alignment_end_position"
+    t.boolean  "control",                  :default => false
+    t.string   "comment"
+    t.boolean  "ready_for_sequencing",     :default => true
+    t.integer  "eland_parameter_set_id"
+    t.date     "submission_date"
+    t.string   "status"
+    t.integer  "submitted_by_id"
+    t.integer  "sample_prep_kit_id"
+    t.integer  "sample_set_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "sample_prep_kits", :force => true do |t|
     t.string   "name"
-    t.integer  "lock_version",       :default => 0
+    t.integer  "lock_version",           :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "restriction_enzyme"
+    t.boolean  "paired_end",             :default => false
+    t.integer  "multiplexing_scheme_id"
+  end
+
+  create_table "sample_sets", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sample_terms", :force => true do |t|
@@ -243,29 +358,17 @@ ActiveRecord::Schema.define(:version => 20091008221500) do
   end
 
   create_table "samples", :force => true do |t|
-    t.integer  "sample_set_id"
-    t.integer  "submitted_by_id"
-    t.integer  "project_id"
-    t.date     "submission_date"
-    t.string   "name_on_tube"
     t.string   "sample_description"
-    t.integer  "sample_prep_kit_id"
     t.integer  "insert_size"
-    t.integer  "desired_read_length"
-    t.integer  "alignment_start_position", :default => 1
-    t.integer  "alignment_end_position"
     t.integer  "reference_genome_id"
-    t.string   "status",                   :default => "submitted"
     t.string   "naming_scheme_id"
-    t.string   "budget_number"
-    t.boolean  "control",                  :default => false
-    t.integer  "lock_version",             :default => 0
-    t.string   "comment"
+    t.integer  "lock_version",        :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "eland_parameter_set_id"
-    t.boolean  "ready_for_sequencing",     :default => true,        :null => false
     t.integer  "experiment_id"
+    t.string   "postback_uri"
+    t.integer  "sample_mixture_id"
+    t.integer  "multiplex_code_id"
   end
 
   create_table "schema_info", :id => false, :force => true do |t|
@@ -282,6 +385,7 @@ ActiveRecord::Schema.define(:version => 20091008221500) do
     t.datetime "updated_at"
     t.boolean  "best",          :default => true
     t.integer  "yield_kb"
+    t.integer  "run_number"
   end
 
   create_table "site_config", :force => true do |t|

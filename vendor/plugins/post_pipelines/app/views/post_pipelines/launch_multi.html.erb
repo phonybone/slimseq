@@ -1,14 +1,14 @@
 <h2>Launch <%= @samples.size %> RNA-Seq Pipelines for Samples:</h2>
 
-<% form_for :post_pipeline, :url=>{:controller=>:post_pipelines, :action=>:launch_multi, :id=>nil} do |form| %>
+<% form_for :post_pipeline, :url=>{:controller=>:post_pipelines, :action=>:launch_prep, :id=>nil} do |form| %>
 
 <table>
+<tr><th>Sample</th><th>Jobs/Sample</th><th>Previously Started/Running Jobs</th></tr>
 <% @samples.each do |sample| %>
 <tr>
     <td><%= check_box_tag 'selected_samples[]', sample.id.to_s, true, {:id=>"sample_#{sample.id.to_s}"} %></td>
     <td><%= link_to sample.name_on_tube, edit_sample_path(sample) %></td>
     <td>(<%= sample.real_read_length %>, <%= sample.status %>, <%= sample.sample_prep_kit.name %>, 
-<%= 
 begin 
   @ref_genome_name=sample.rna_seq_ref_genome.name 
 rescue Exception => e

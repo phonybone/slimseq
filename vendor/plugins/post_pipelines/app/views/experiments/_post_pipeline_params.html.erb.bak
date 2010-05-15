@@ -18,16 +18,27 @@
 
 <tr><!-- ref geneome select -->
   <td>Ref. Genome</td>
-  <td><$= @sample.rna_seq_ref_genome.name %></td>
+  <td><%= @ref_genome_name %></td>
 </tr>
+
+<tr><!-- Real read length -->
+  <td>Real readlen:</td>
+  <td><%= sample.real_read_length %></td>
+</tr>
+
+<tr><!-- Alignment params -->
+  <td>Alignment algorithm parameters:</td>
+  <td><%= text_field :post_pipeline, :align_params, {:value=>@aligner_params} %></td>
+</tr>
+
 
 <tr>
   <td><%= label_tag :errcs, 'Include ERCC analysis' %></td>
-  <td><%= check_box :post_pipeline, :erccs %></td>
+  <td><%= check_box :post_pipeline, :erccs, {:checked=>true} %></td>
 </tr>
 <tr>
   <td><%= label_tag :dry_run, 'Dry Run' %></td>
-  <td><%= check_box :post_pipeline, :dry_run %></td>
+  <td><%= check_box :post_pipeline, :dry_run, {:checked=>true} %></td>
 </tr>
 
 

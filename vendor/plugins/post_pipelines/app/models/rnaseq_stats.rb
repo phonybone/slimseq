@@ -1,3 +1,3 @@
-class RnaseqStats < ActiveRecord::Base
-  set_table_name 'rnaseq_stats'
+class RnaseqStats < ActiveRecord
+  belongs_to :rnaseq_pipeline
 end

@@ -11,3 +11,5 @@ at_exit do
 end
 
 load "script/server"
+
+AppConfig.load

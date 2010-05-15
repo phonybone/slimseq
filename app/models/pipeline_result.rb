@@ -1,7 +1,7 @@
 class PipelineResult < ActiveRecord::Base
   belongs_to :sequencing_run
   belongs_to :flow_cell_lane
-  has_many :post_pipeline
+  has_many :rnaseq_pipeline
 
   # should only have one result per combination of sequencing run, flow cell lane and 
   # date gerald was run

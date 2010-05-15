@@ -1,0 +1,220 @@
+# On branch phonybone_additions
+# Your branch and 'origin/phonybone_additions' have diverged,
+# and have 1 and 1 different commit(s) each, respectively.
+#
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   INSTALL.rdoc
+#	modified:   README.rdoc
+#	modified:   app/controllers/api_controller.rb
+#	modified:   app/controllers/application_controller.rb
+#	deleted:    app/controllers/charge_periods_controller.rb
+#	deleted:    app/controllers/charge_sets_controller.rb
+#	deleted:    app/controllers/charge_templates_controller.rb
+#	deleted:    app/controllers/charges_controller.rb
+#	new file:   app/controllers/external_services_controller.rb
+#	modified:   app/controllers/flow_cells_controller.rb
+#	modified:   app/controllers/pipeline_runs_controller.rb
+#	modified:   app/controllers/projects_controller.rb
+#	modified:   app/controllers/reports_controller.rb
+#	new file:   app/controllers/sample_mixtures_controller.rb
+#	modified:   app/controllers/sample_sets_controller.rb
+#	modified:   app/controllers/samples_controller.rb
+#	modified:   app/controllers/welcome_controller.rb
+#	deleted:    app/models/charge.rb
+#	deleted:    app/models/charge_period.rb
+#	deleted:    app/models/charge_set.rb
+#	deleted:    app/models/charge_template.rb
+#	new file:   app/models/external_service.rb
+#	modified:   app/models/flow_cell_lane.rb
+#	modified:   app/models/lab_group_profile.rb
+#	new file:   app/models/multiplex_code.rb
+#	new file:   app/models/multiplexing_scheme.rb
+#	modified:   app/models/pipeline_run.rb
+#	modified:   app/models/project.rb
+#	modified:   app/models/sample.rb
+#	new file:   app/models/sample_mixture.rb
+#	modified:   app/models/sample_prep_kit.rb
+#	modified:   app/models/sample_set.rb
+#	modified:   app/models/sequencing_run.rb
+#	modified:   app/views/api/index.html.erb
+#	new file:   app/views/api/sample_sets.html.erb
+#	deleted:    app/views/charge_periods/_form.rhtml
+#	deleted:    app/views/charge_periods/edit.rhtml
+#	deleted:    app/views/charge_periods/new.rhtml
+#	deleted:    app/views/charge_sets/_form.rhtml
+#	deleted:    app/views/charge_sets/edit.rhtml
+#	deleted:    app/views/charge_sets/list.rhtml
+#	deleted:    app/views/charge_sets/new.rhtml
+#	deleted:    app/views/charge_templates/_form.rhtml
+#	deleted:    app/views/charge_templates/edit.rhtml
+#	deleted:    app/views/charge_templates/list.rhtml
+#	deleted:    app/views/charge_templates/new.rhtml
+#	deleted:    app/views/charges/_form.rhtml
+#	deleted:    app/views/charges/edit.rhtml
+#	deleted:    app/views/charges/list_within_charge_set.rhtml
+#	deleted:    app/views/charges/new.rhtml
+#	new file:   app/views/external_services/edit.html.erb
+#	new file:   app/views/external_services/index.html.erb
+#	new file:   app/views/external_services/new.html.erb
+#	new file:   app/views/external_services/show.html.erb
+#	modified:   app/views/flow_cells/edit.html.erb
+#	modified:   app/views/flow_cells/new.html.erb
+#	modified:   app/views/flow_cells/show.html.erb
+#	modified:   app/views/gerald_configurations/create.html.erb
+#	modified:   app/views/gerald_configurations/new.html.erb
+#	modified:   app/views/layouts/application.rhtml
+#	modified:   app/views/pipeline_results/edit.html.erb
+#	modified:   app/views/pipeline_results/index.html.erb
+#	modified:   app/views/reference_genomes/edit.html.erb
+#	modified:   app/views/reference_genomes/new.html.erb
+#	modified:   app/views/reports/billing.html.erb
+#	renamed:    app/views/samples/_branch.html.erb -> app/views/sample_mixtures/_branch.html.erb
+#	renamed:    app/views/samples/browse.html.erb -> app/views/sample_mixtures/browse.html.erb
+#	renamed:    app/views/samples/details.html.erb -> app/views/sample_mixtures/details.html.erb
+#	new file:   app/views/sample_mixtures/edit.rhtml
+#	renamed:    app/views/samples/list.html.erb -> app/views/sample_mixtures/list.html.erb
+#	modified:   app/views/sample_prep_kits/edit.html.erb
+#	modified:   app/views/sample_prep_kits/index.html.erb
+#	modified:   app/views/sample_prep_kits/new.html.erb
+#	modified:   app/views/sample_sets/_step1.html.erb
+#	modified:   app/views/sample_sets/_step2.html.erb
+#	modified:   app/views/sample_sets/new.html.erb
+#	modified:   app/views/samples/_hidden_naming_element.rhtml
+#	modified:   app/views/samples/_schemed_sample_description.rhtml
+#	modified:   app/views/samples/_shown_naming_element.rhtml
+#	modified:   app/views/samples/edit.rhtml
+#	modified:   app/views/sequencing_runs/edit.html.erb
+#	modified:   app/views/sequencing_runs/index.html.erb
+#	modified:   app/views/sequencing_runs/new.html.erb
+#	modified:   app/views/welcome/_completed_sample_table.html.erb
+#	modified:   app/views/welcome/_sample_table.rhtml
+#	modified:   app/views/welcome/home.rhtml
+#	modified:   app/views/welcome/staff.rhtml
+#	deleted:    config/database.yml.example
+#	modified:   config/environment.rb
+#	modified:   config/environments/test.rb
+#	modified:   config/routes.rb
+#	modified:   db/example_data.rb
+#	modified:   db/migrate/001_initial_schema.rb
+#	new file:   db/migrate/20100128210648_create_external_services.rb
+#	new file:   db/migrate/20100210221639_add_sample_postback_uri.rb
+#	new file:   db/migrate/20100225203233_add_reference_genome_solid_fields.rb
+#	new file:   db/migrate/20100225204218_add_pipeline_results_archived_flag.rb
+#	new file:   db/migrate/20100225205406_add_sample_prep_kit_paired_end_flag.rb
+#	new file:   db/migrate/20100310215547_add_sequencing_run_number.rb
+#	new file:   db/migrate/20100316205813_flow_cell_lane_number_of_cycles.rb
+#	new file:   db/migrate/20100326225238_create_sample_mixtures.rb
+#	new file:   db/migrate/20100326225345_create_multiplexing_schemes.rb
+#	new file:   db/migrate/20100326225514_create_multiplex_codes.rb
+#	new file:   db/migrate/20100330223412_create_sample_sets.rb
+#	new file:   db/migrate/20100419173009_add_external_services_json_style_and_authentication_method.rb
+#	modified:   db/schema.rb
+#	new file:   lib/generators/slimseq_configuration/slimseq_configuration_generator.rb
+#	new file:   lib/generators/slimseq_configuration/templates/application.yml.erb
+#	renamed:    config/application.yml.example -> lib/generators/slimseq_configuration/templates/application.yml.placeholder
+#	new file:   lib/generators/slimseq_configuration/templates/database.yml.erb
+#	new file:   lib/generators/slimseq_configuration/templates/database.yml.placeholder
+#	modified:   lib/tasks/rspec.rake
+#	modified:   lib/tasks/setup.rake
+#	modified:   public/stylesheets/mystyles.css
+#	new file:   spec/controllers/external_services_controller_spec.rb
+#	new file:   spec/controllers/sample_mixtures_controller_spec.rb
+#	modified:   spec/controllers/sample_sets_controller_spec.rb
+#	modified:   spec/controllers/samples_controller_spec.rb
+#	modified:   spec/controllers/welcome_controller_spec.rb
+#	deleted:    spec/fixtures/charge_periods.yml
+#	deleted:    spec/fixtures/charge_sets.yml
+#	deleted:    spec/fixtures/charge_templates.yml
+#	deleted:    spec/fixtures/charges.yml
+#	modified:   spec/fixtures/flow_cell_lanes.yml
+#	new file:   spec/fixtures/multiplex_codes.yml
+#	new file:   spec/fixtures/multiplexing_schemes.yml
+#	renamed:    spec/fixtures/samples.yml -> spec/fixtures/sample_mixtures.yml
+#	modified:   spec/fixtures/samples.yml
+#	deleted:    spec/models/charge_period_spec.rb
+#	deleted:    spec/models/charge_set_spec.rb
+#	deleted:    spec/models/charge_template_spec.rb
+#	new file:   spec/models/external_service_spec.rb
+#	modified:   spec/models/flow_cell_lane_spec.rb
+#	modified:   spec/models/flow_cell_spec.rb
+#	modified:   spec/models/lab_group_profile_spec.rb
+#	new file:   spec/models/multiplex_code_spec.rb
+#	renamed:    spec/models/sample_prep_kit_spec.rb -> spec/models/multiplexing_scheme_spec.rb
+#	modified:   spec/models/pipeline_run_spec.rb
+#	modified:   spec/models/project_spec.rb
+#	new file:   spec/models/sample_mixture_spec.rb
+#	modified:   spec/models/sample_prep_kit_spec.rb
+#	new file:   spec/models/sample_set_spec.rb
+#	modified:   spec/models/sample_spec.rb
+#	modified:   spec/models/sequencing_run_spec.rb
+#	modified:   spec/spec.opts
+#	modified:   spec/spec_helper.rb
+#	new file:   vendor/plugins/post_pipelines/app/controllers/rnaseq_pipelines_controller.rb
+#	new file:   vendor/plugins/post_pipelines/app/models/rnaseq_pipeline.conf
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/_rnaseq_pipeline_params.html.erb
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/_rnaseq_pipelines_for_sample_mixture.html.erb
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/_sample_mixture.html.erb
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/edit.html.erb
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/index.html.erb
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/launch_prep.html.erb
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/show.html.erb
+#	new file:   vendor/plugins/post_pipelines/app/views/rnaseq_pipelines/show.html.erb.bak
+#	new file:   vendor/plugins/request_exception_handler/.gitignore
+#	new file:   vendor/plugins/request_exception_handler/MIT-LICENSE
+#	new file:   vendor/plugins/request_exception_handler/README
+#	new file:   vendor/plugins/request_exception_handler/Rakefile
+#	new file:   vendor/plugins/request_exception_handler/init.rb
+#	new file:   vendor/plugins/request_exception_handler/install.rb
+#	new file:   vendor/plugins/request_exception_handler/lib/request_exception_handler.rb
+#	new file:   vendor/plugins/request_exception_handler/tasks/request_exception_handler_tasks.rake
+#	new file:   vendor/plugins/request_exception_handler/test/request_exception_handler_test.rb
+#	new file:   vendor/plugins/request_exception_handler/test/test_helper.rb
+#	new file:   vendor/plugins/request_exception_handler/uninstall.rb
+#
+# Changed but not updated:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	deleted:    app/controllers/#samples_controller.rb#
+#	deleted:    app/controllers/.#samples_controller.rb
+#	modified:   app/controllers/experiments_controller.rb
+#	modified:   app/controllers/sample_mixtures_controller.rb
+#	modified:   app/models/pipeline_result.rb
+#	modified:   app/models/sample_mixture.rb
+#	modified:   app/views/experiments/add_samples.html.erb
+#	modified:   app/views/experiments/edit.html.erb
+#	modified:   app/views/experiments/index.html.erb
+#	modified:   app/views/experiments/show.html.erb
+#	modified:   app/views/sample_mixtures/edit.rhtml
+#	modified:   app/views/sample_mixtures/list.html.erb
+#	modified:   app/views/studies/index.html.erb
+#	modified:   config/routes.rb
+#	modified:   db/schema.rb
+#	modified:   lib/core_extensions/file.rb
+#	modified:   vendor/plugins/post_pipelines/app/controllers/post_pipelines_controller.rb
+#	modified:   vendor/plugins/post_pipelines/app/controllers/samples_controller.rb
+#	modified:   vendor/plugins/post_pipelines/app/models/rnaseq_pipeline.rb
+#	deleted:    vendor/plugins/post_pipelines/app/views/experiments/#_post_pipeline_params.html.erb#
+#	deleted:    vendor/plugins/post_pipelines/app/views/experiments/.#_post_pipeline_params.html.erb
+#	modified:   vendor/plugins/post_pipelines/app/views/experiments/_post_pipeline_params.html.erb.bak
+#	modified:   vendor/plugins/post_pipelines/app/views/experiments/pipeline.html.erb
+#	modified:   vendor/plugins/post_pipelines/app/views/post_pipelines/index.html.erb
+#	modified:   vendor/plugins/post_pipelines/app/views/post_pipelines/launch_multi.html.erb
+#	modified:   vendor/plugins/post_pipelines/app/views/post_pipelines/show.html.erb
+#	modified:   vendor/plugins/post_pipelines/app/views/samples/pipeline.html.erb
+#	modified:   vendor/plugins/post_pipelines/init.rb
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	.nfs0000000006fc0122000001be
+#	app/helpers/rnaseq_pipelines_helper.rb
+#	db/migrate/20100511184909_create_rnaseq_pipeline.rb
+#	git.status
+#	public/stylesheets/scaffold.css
+#	rnaseq_pipeline.out
+#	test/
+#	tmp/sessions/cas_sess.ST-1273520584rB395B0FEC8F17C0566
+#	tmp/sessions/cas_sess.ST-1273620418r8F32B0BE1F11AC1260

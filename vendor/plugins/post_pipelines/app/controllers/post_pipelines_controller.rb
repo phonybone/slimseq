@@ -49,7 +49,6 @@ class PostPipelinesController < ApplicationController
   # POST /post_pipelines
   # POST /post_pipelines.xml
   def create
-    logger.info "debug: I'm a baby dwagon!";
     @post_pipeline = PostPipeline.new(params[:post_pipeline])
 
     respond_to do |format|
@@ -153,6 +152,8 @@ class PostPipelinesController < ApplicationController
   # will replace launch_sample and launch_exp
   # redirected from samples/bulk_handler (as displayed by views/samples/list.html.erb
   # params[] contains sample_ids
+  # redirects back to self, via launch_multi.html.erb:form:action; might not actually be the 
+  # best way to handle that; rename this to "launch_params"? and actuall callback to just 'launch' ("multi" implied)
 
   def launch_multi
     # have to make sure all the samples are compatible (same real_read_length, etc)

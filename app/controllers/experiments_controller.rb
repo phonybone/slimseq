@@ -92,7 +92,12 @@ class ExperimentsController < ApplicationController
     @experiment=Experiment.find(params[:id])
 
     # want to list all samples available to the user
-    @all_samples=Sample.accessible_to_user(current_user)
+    @all_samples=Array.new
+    SampleMixture.accessible_to_user(current_user).each do |sm| 
+      sm.samples.each do |s|
+        @all_samples << s
+      end
+    end
     # some might already be assigned to this experiment, some
     # might be assigned to other experiments, and some might not be
     # assigned to anything.

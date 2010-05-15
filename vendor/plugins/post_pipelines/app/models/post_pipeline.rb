@@ -184,9 +184,9 @@ class PostPipeline < ActiveRecord::Base
     launch_qsub=launch_file()
 
     template_file=File.join(AppConfig.script_dir,AppConfig.entry_template)
-    template=File.slurp template_file
+    template=File.read template_file
     script=eval template
-    File.spit(entry_file(),script)
+    File.open(entry_file(),"w") do |f| f.puts script; end 
   end
 
   def write_launch_script
@@ -194,9 +194,9 @@ class PostPipeline < ActiveRecord::Base
     qsub_file=qsub_file()
     
     template_file=File.join(AppConfig.script_dir,AppConfig.launch_template)
-    template=File.slurp template_file
+    template=File.read template_file
     script=eval template
-    File.spit(launch_file(),script)
+    File.open(launch_file(),"w") do |f| f.puts script; end 
   end
 
   # Write the script that will launch the pipeline (invoked by the entry script)
@@ -220,9 +220,9 @@ class PostPipeline < ActiveRecord::Base
     bowtie_opts=AppConfig.bowtie_opts
     
     template_file=File.join(AppConfig.script_dir,AppConfig.qsub_template)
-    template=File.slurp template_file
+    template=File.read template_file
     script=eval template
-    File.spit(qsub_file(),script)
+    File.open(qsub_file(),"w") do |f| f.puts script; end 
   end
 
 end

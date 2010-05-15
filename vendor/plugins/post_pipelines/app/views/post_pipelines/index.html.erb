@@ -17,8 +17,8 @@ table.post_pipelines td { text-align: center; }
 <% for post_pipeline in @post_pipelines %>
   <tr>
     <td><%=h post_pipeline.label %></td>
-    <td><%=h post_pipeline.sample.name_on_tube %></td>
-    <td><%=h post_pipeline.sample.post_pipeline_aligner %></td>
+    <td><%=h post_pipeline.sample.sample_mixture.name_on_tube %></td>
+    <td><%=h post_pipeline.sample.sample_mixture.post_pipeline_aligner %></td>
     <td><%=h post_pipeline.align_params %></td>
     <td><%=h post_pipeline.max_mismatches %></td>
     <td><%=h post_pipeline.status %></td>
