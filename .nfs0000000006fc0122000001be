@@ -11841,4 +11841,76 @@ if( ENV["RAILS_ENV"] == "test" )
   ExceptionNotifier.exception_recipients = "admin@example.com"
 else
   ExceptionNotifier.exception_recipients = SiteConfig.administrator_email
-end
+end
+ExceptionNotifier.sender_address =
+    %("Application Error" <slimarray@#{`hostname`.strip}>)
+[52;1H[K[7m(END) [27m[52;1H[52;1H[K[52;1H[K[7m(END) [27m[52;1H[K[?1l>[?1049l[vcassen@slim cap_slimarray]$ l shared/config/environment.rb[K[vcassen@slim cap_slimarray]$ l shared/config/environment.rb
+[?1049h[?1h=[52;1H[K# Be sure to restart your server when you modify this file
+
+# Uncomment below to force Rails into production mode when
+# you don't control web/app server and can't set it the proper way
+#ENV['RAILS_ENV'] ||= 'staging'
+
+# Specifies gem version of Rails to use when vendor/rails is not present
+RAILS_GEM_VERSION = '2.2.2' unless defined? RAILS_GEM_VERSION
+
+# Bootstrap the Rails environment, frameworks, and default configuration
+require File.join(File.dirname(__FILE__), 'boot')
+require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
+
+Rails::Initializer.run do |config|
+  # Settings in config/environments/* take precedence over those specified here.
+  # Application configuration should go into files in config/initializers
+  # -- all .rb files in that directory are automatically loaded.
+  # See Rails::Configuration for more options.
+
+  # Skip frameworks you're not going to use (only works if using vendor/rails).
+  # To use Rails without a database, you must remove the Active Record framework
+  # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+
+  # Only load the plugins named here, in the order given. By default, all plugins 
+  # in vendor/plugins are loaded in alphabetical order.
+  # :all can be used as a placeholder for all plugins not explicitly named
+  # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+
+  # Add additional load paths for your own custom dirs
+  # config.load_paths += %W( #{RAILS_ROOT}/extras )
+
+  # Force all environments to use the same logger level
+  # (by default production uses :info, the others :debug)
+  # config.log_level = :debug
+
+  # Your secret key for verifying cookie session data integrity.
+  # If you change this key, all old sessions will become invalid!
+  # Make sure the secret is at least 30 characters and all random, 
+  # no regular words or you'll be exposed to dictionary attacks.
+  config.action_controller.session = {
+    :session_key => '_restful_authentication_test_session',
+    :secret      => 'f60f394add7aa3c74c2529e823cb87fc30780205e8f058b2fdd0e08a26d60f23c53f5fbc4142a58df75ef237b8ff3f79c9d5b571bf372d1cb70f28818aae3975'
+  }
+
+  # Use the database for sessions instead of the cookie-based default,
+  # which shouldn't be used to store highly confidential information
+  # (create the session table with 'rake db:sessions:create')
+  # config.action_controller.session_store = :active_record_store
+  
+  # Use pstore, since we're storing > 4K in session
+[52;1H[K[7mshared/config/environment.rb [27m[52;1H[K[?1l>[?1049l[vcassen@slim cap_slimarray]$ e[K[vcassen@slim cap_slimarray]$ echo 4[K$RUBYLIN[KB
+/local/usr/lib/ruby/site_ruby/1.8/
+[vcassen@slim cap_slimarray]$ echo $GEN_[K[KM_HOME
+/local/usr/lib/ruby/gems/1.8
+[vcassen@slim cap_slimarray]$ setenv | grep -i ruby
+GEM_HOME=/local/usr/lib/ruby/gems/1.8
+RUBYLIB=/local/usr/lib/ruby/site_ruby/1.8/
+[vcassen@slim cap_slimarray]$ setenv | grep -i ruby[Krails
+PWD=/net/dblocal/apps/SLIMarray/rails/cap_slimarray
+RAILS_GEM_VERSION=2.3.5
+[vcassen@slim cap_slimarray]$ setenv | grep -i rails[K
+PWD=/net/dblocal/apps/SLIMarray/rails/cap_slimarray
+RAILS_GEM_VERSION=2.3.5
+[vcassen@slim cap_slimarray]$ setenv | grep -i rail[K[K[K[Kgem
+GEM_HOME=/local/usr/lib/ruby/gems/1.8
+RAILS_GEM_VERSION=2.3.5
+[vcassen@slim cap_slimarray]$ c[K[vcassen@slim cap_slimarray]$ cd /solexa/facility/Novo/100115_HWI-EAS427_FC61099AAXX/Data/Intensities/BaseCalls/GERALD_18-01-2010_sbsuser/post_pipeline_346_505_555/16May10.113040
+[vcassen@slim 16May10.113040]$ sh sample_346_fcl_505_pr_555.qsub.bento.sh 
+sample_346_fcl_505_pr_555.qsub.bento.sh: line 11: /tools/bin/ruby: No such file or dir

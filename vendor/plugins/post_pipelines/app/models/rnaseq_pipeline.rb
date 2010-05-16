@@ -2,8 +2,9 @@ class RnaseqPipeline < ActiveRecord::Base
   has_many :rnaseq_pipeline_partial
   belongs_to :sample_mixture
   belongs_to :flow_cell_lane
+  belongs_to :pipeline_result
 
-  attr_accessor :erccs, :dry_run, :current_user, :export_filepath
+  attr_accessor :erccs, :dry_run, :export_filepath
 
   require 'yaml'
 
@@ -34,10 +35,11 @@ class RnaseqPipeline < ActiveRecord::Base
         rp.user_params! params
         rp.sample_mixture_params! sm
         rp.flow_cell_lane_params! fcl
+        rp.pipeline_result_params! 
 
         rp.status='Created'
-        rp.name=self.label
-        rp.working_dir=make_working_dir
+        rp.name=rp.label
+        rp.working_dir=rp.make_working_dir
 
         new_pipelines << rp
         begin
@@ -57,10 +59,10 @@ class RnaseqPipeline < ActiveRecord::Base
   def user_params! (params)
     rnaseq_params=params['rnaseq_pipeline']
     self.align_params=rnaseq_params['align_params']+" -n #{params[:max_mismatches]}"
-    self.max_mismatches=params[:max_mismatches]
-    self.email=params[:email]
-    self.erccs=params[:erccs]
-    self.dry_run=params[:dry_run]
+    self.max_mismatches=rnaseq_params[:max_mismatches]
+    self.email=rnaseq_params[:email]
+    self.erccs=rnaseq_params[:erccs]
+    self.dry_run=rnaseq_params[:dry_run]
     self
   end
 
@@ -78,15 +80,14 @@ class RnaseqPipeline < ActiveRecord::Base
   def flow_cell_lane_params! (fcl)
     self.flow_cell_lane_id=fcl.id
     self.sample_mixture_id=fcl.sample_mixture.id
-    self.export_file=fcl.raw_data_path
+#    self.export_file=fcl.raw_data_path # WRONG!
     self.pipeline_result_id=fcl.pipeline_results[-1].id # fixme: not sure if this is actually needed
-
-    # calc working dir name
-    wd=['post_pipeline',sample_mixture_id.to_s,fcl.id.to_s].join('_') # eg 'post_pipeline_412_585'
-    ts=Time.now.strftime  "%d%b%y.%H%M%S"                             # eg 21Apr10.032723
-    self.working_dir=File.join(File.dirname(export_file),wd,ts)
-
     self
+  end
+
+  def pipeline_result_params! 
+    self.export_file=File.basename(pipeline_result.eland_output_file);
+    self.export_filepath=pipeline_result.eland_output_file
   end
 
   def vaild?
@@ -100,7 +101,7 @@ class RnaseqPipeline < ActiveRecord::Base
 ########################################################################
 
   def make_working_dir
-    wd=['post_pipeline',sample_id.to_s,flow_cell_lane_id.to_s,pipeline_result_id.to_s].join('_') # eg 'post_pipeline_412_585_235'
+    wd=['post_pipeline',sample_mixture_id.to_s,flow_cell_lane_id.to_s,pipeline_result_id.to_s].join('_') # eg 'post_pipeline_412_585_235'
     ts=Time.now.strftime  "%d%b%y.%H%M%S" # eg 21Apr10.032723
     File.join(File.dirname(pipeline_result.eland_output_file),wd,ts)
   end    
@@ -177,6 +178,7 @@ class RnaseqPipeline < ActiveRecord::Base
 
   def launch
     # mkdir working_dir and working_dir/rds; chmod of each to 777; also make a link to export file:
+    raise "#{export_filepath}: no such file or unreadable" unless FileTest.readable? export_filepath
     FileUtils.mkdir_p "#{working_dir}/rds" unless FileTest.directory? "#{working_dir}/rds"
     FileUtils.chmod 0777, "#{working_dir}"
     FileUtils.chmod 0777, "#{working_dir}/rds"
@@ -189,17 +191,20 @@ class RnaseqPipeline < ActiveRecord::Base
 
     # system "/bin/sh #{entry_file} > #{entry_output}" # launches qsub job
     cmd="/bin/sh #{entry_file} > #{entry_file}.out"
-    success=system(cmd)
-    raise "#{sample.name_on_tube}: failed to launch via qsub (#{cmd}, #{$?})" unless success
+#    success=system(cmd)
+#    raise "#{sample_mixture.name_on_tube}: failed to launch (#{cmd}, #{$?})" unless success
+    raise "#{sample_mixture.name_on_tube}: didn't launch (#{cmd}, #{$?})" 
 
     # parse entry file to find qsub_job_id, save it
     # Your job 24697 ("bowtie-build-human-100") has been submitted
     contents=File.open("#{entry_file}.out").read
     mr=contents.match(/Your job (\d+) .* has been submitted/)
-    qsub_job_id=mr[1].to_i      # if no match -> mr[1]==nil && qsub_job_id == 0
-    if qsub_job_id>0
-      self.qsub_job_id
-      self.save
+    unless mr.nil? or mr[1].nil?
+      qsub_job_id=mr[1].to_i      # if no match -> mr[1]==nil && qsub_job_id == 0
+      if qsub_job_id>0
+        self.qsub_job_id
+        self.save
+      end
     end
     
   end
@@ -235,18 +240,18 @@ class RnaseqPipeline < ActiveRecord::Base
     pp_id=id
     ruby=AppConfig.ruby
     rnaseq_pipeline=File.join(AppConfig.script_dir,AppConfig.rnaseq_pipeline)
-    readlen=sample.real_read_length # fixme: data in table is busted for some samples
+    readlen=sample_mixture.real_read_length # fixme: data in table is busted for some samples
     script_dir=AppConfig.script_dir
     rnaseq_dir=AppConfig.rnaseq_dir
     bin_dir=AppConfig.bin_dir
-    dry_run_flag= dry_run.to_i<0 ? '-dry_run':'' # dry_run comes from form, so values are [0|1]
-    email=current_user.email
+    dry_run_flag= dry_run.to_i>0 ? '-dry_run':'' # dry_run comes from form, so values are [0|1]
+    email=self.email
 
     perl=AppConfig.perl
     gather_stats=File.join(AppConfig.script_dir,AppConfig.gather_stats)
 
     # ref_genome is only needed for bowtie, but include always anyway
-    ref_genome=sample.rna_seq_ref_genome.name
+    ref_genome=sample_mixture.rna_seq_ref_genome.name
     bowtie_opts=AppConfig.bowtie_opts
     
     template_file=File.join(AppConfig.script_dir,AppConfig.qsub_template)

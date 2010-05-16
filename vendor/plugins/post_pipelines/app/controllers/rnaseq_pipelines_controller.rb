@@ -1,5 +1,5 @@
 class RnaseqPipelinesController < ApplicationController
-  require 'yaml'
+  before_filter :login_required
   # GET /rnaseq_pipelines
   # GET /rnaseq_pipelines.xml
   def index
@@ -42,7 +42,7 @@ class RnaseqPipelinesController < ApplicationController
   # POST /rnaseq_pipelines.xml
   def create
     @rnaseq_pipeline = RnaseqPipeline.new(params[:rnaseq_pipeline])
-
+    @rnaseq_pipeline.email=current_user.email
     respond_to do |format|
       if @rnaseq_pipeline.save
         flash[:notice] = 'RnaseqPipeline was successfully created.'
@@ -130,9 +130,20 @@ class RnaseqPipelinesController < ApplicationController
       end
 
       # launch all valid rnaseq_pipeline objects, noting number launched in flash[:notice] or some such
-#      @pipelines.each do |p| p.launch; end
+      flash[:notice]=''
+      msgs=Array.new
+      n_launched=0
+      @pipelines.each do |p| 
+        begin
+          p.launch
+          n_launched+=1
+        rescue RuntimeError => rt
+          msgs << rt.message
+        end
+      end
+      msgs << "#{n_launched} pipelines launched"
+      flash[:notice]+=msgs.join('<br />')
 
-      flash[:notice]="#{@pipelines.length} pipelines launched"
 
     rescue RuntimeError => e
       @disable_launch=true
