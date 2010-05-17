@@ -17,7 +17,7 @@
 <p>
   <b>Samples:</b>
   <%= @experiment.samples.collect {|sample|
-      link_to( sample.name_on_tube, :controller=>:samples, :action=>:edit, :id=>sample.id )
+      link_to( sample.sample_mixture.name_on_tube, :controller=>:samples, :action=>:edit, :id=>sample.id )
   }.join('&nbsp; | &nbsp');
   %>
 </p>
