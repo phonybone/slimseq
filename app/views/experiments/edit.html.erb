@@ -32,10 +32,7 @@
         </li>
     <% end %></ul>
     <%= link_to "Manage samples", :controller=>:experiments, :action=>:add_samples, :id=>@experiment.id %>
-    <%= submit_tag 'RNA Seq Pipeline' %>
-
-    <%= link_to "RNA Seq Pipeline", :controller=>:rnaseq_pipelines, :action=>:launch_prep,
-      :id=>@experiment.id if AppConfig.rnaseq_pipelines_enabled %>
+    <%= submit_tag 'RNA Seq Pipeline' if AppConfig.rnaseq_pipelines_enabled %>
 
   </p>
   <% end %><!-- form_tag -->
