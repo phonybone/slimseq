@@ -554,10 +554,10 @@ class Sample < ActiveRecord::Base
   end
 
   def tree_hash
-    require 'application_helper'
+    site_url=ENV['RAILS_RELATIVE_URL_ROOT']
     { :id=> "s_#{id}",
-      :text => name_on_tube,
-      :href => "#{SiteConfig.site_url}/samples/edit/#{id}",
+      :text => sample_mixture.name_on_tube,
+      :href => "#{site_url}/samples/#{id}/edit",
       :leaf => true
     }
   end   
