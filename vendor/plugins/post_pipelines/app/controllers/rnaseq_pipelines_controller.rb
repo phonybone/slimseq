@@ -1,4 +1,5 @@
 class RnaseqPipelinesController < ApplicationController
+  require 'numeric_helpers'
   before_filter :login_required
   # GET /rnaseq_pipelines
   # GET /rnaseq_pipelines.xml
@@ -14,7 +15,8 @@ class RnaseqPipelinesController < ApplicationController
   # GET /rnaseq_pipelines/1
   # GET /rnaseq_pipelines/1.xml
   def show
-    @rnaseq_pipeline = RnaseqPipeline.find(params[:id])
+    @rp = RnaseqPipeline.find(params[:id])
+    stats=@rp.stats
 
     respond_to do |format|
       format.html # show.html.erb
@@ -111,6 +113,7 @@ class RnaseqPipelinesController < ApplicationController
   def launch
     # get sample_mixture objects from params[:selected_sample_mixtures]
     @sample_mixtures=get_sample_mixtures(params)
+    raise "no sample_mixtures" unless @sample_mixtures.length>0
 
     # make sure rnaseq_config file is loaded:
     raise "RNA-Seq values not loaded to AppConfig!" if AppConfig[:rnaseq_dir].nil?
@@ -169,6 +172,7 @@ class RnaseqPipelinesController < ApplicationController
 #      logger.warn "ssm.keys: #{selected_sample_mixtures.keys.inspect}"
       sample_mixtures = Array.new
       selected_sample_mixtures.keys.each do |sample_mixture_id|
+        next unless selected_sample_mixtures[sample_mixture_id].to_i==1
 #        logger.warn "sample_mixture_id is #{sample_mixture_id.inspect}"
         sm=SampleMixture.find(sample_mixture_id)
         sample_mixtures << sm if sm.is_a? SampleMixture

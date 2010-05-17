@@ -1,5 +1,5 @@
 class RnaseqPipeline < ActiveRecord::Base
-  has_many :rnaseq_pipeline_partial
+  has_one :rnaseq_stats
   belongs_to :sample_mixture
   belongs_to :flow_cell_lane
   belongs_to :pipeline_result
@@ -50,15 +50,15 @@ class RnaseqPipeline < ActiveRecord::Base
       end
     end
     raise msgs.join("<br />") if msgs.length>0
-    logger.warn "new pipelines: msgs is #{msgs.join(', ')}"
-    logger.warn "got #{new_pipelines.length} pipelines"
+#    logger.warn "new pipelines: msgs is #{msgs.join(', ')}"
+#    logger.warn "got #{new_pipelines.length} pipelines"
     new_pipelines
   end
 
   #---------------------------------------------------------------------
   def user_params! (params)
     rnaseq_params=params['rnaseq_pipeline']
-    self.align_params=rnaseq_params['align_params']+" -n #{params[:max_mismatches]}"
+    self.align_params=rnaseq_params['align_params']+" -n #{rnaseq_params[:max_mismatches]}"
     self.max_mismatches=rnaseq_params[:max_mismatches]
     self.email=rnaseq_params[:email]
     self.erccs=rnaseq_params[:erccs]
@@ -80,8 +80,7 @@ class RnaseqPipeline < ActiveRecord::Base
   def flow_cell_lane_params! (fcl)
     self.flow_cell_lane_id=fcl.id
     self.sample_mixture_id=fcl.sample_mixture.id
-#    self.export_file=fcl.raw_data_path # WRONG!
-    self.pipeline_result_id=fcl.pipeline_results[-1].id # fixme: not sure if this is actually needed
+    self.pipeline_result_id=fcl.pipeline_results[-1].id 
     self
   end
 
@@ -191,9 +190,8 @@ class RnaseqPipeline < ActiveRecord::Base
 
     # system "/bin/sh #{entry_file} > #{entry_output}" # launches qsub job
     cmd="/bin/sh #{entry_file} > #{entry_file}.out"
-#    success=system(cmd)
-#    raise "#{sample_mixture.name_on_tube}: failed to launch (#{cmd}, #{$?})" unless success
-    raise "#{sample_mixture.name_on_tube}: didn't launch (#{cmd}, #{$?})" 
+    success=system(cmd)
+    raise "#{sample_mixture.name_on_tube}: failed to launch (#{cmd}, #{$?})" unless success
 
     # parse entry file to find qsub_job_id, save it
     # Your job 24697 ("bowtie-build-human-100") has been submitted
