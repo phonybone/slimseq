@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100511184909) do
+ActiveRecord::Schema.define(:version => 20100516201535) do
 
   create_table "charge_periods", :force => true do |t|
     t.string   "name"
@@ -290,18 +290,16 @@ ActiveRecord::Schema.define(:version => 20100511184909) do
   end
 
   create_table "rnaseq_stats", :force => true do |t|
-    t.integer  "post_pipeline_id", :default => 0, :null => false
-    t.integer  "total_reads",      :default => 0, :null => false
-    t.integer  "total_aligned",    :default => 0, :null => false
-    t.integer  "unique_aligned",   :default => 0, :null => false
-    t.integer  "spliced_aligned",  :default => 0, :null => false
-    t.integer  "multi_aligned",    :default => 0, :null => false
-    t.integer  "n_genes",          :default => 0, :null => false
+    t.integer  "rnaseq_pipeline_id"
+    t.integer  "total_reads"
+    t.integer  "total_aligned"
+    t.integer  "unique_aligned"
+    t.integer  "multi_aligned"
+    t.integer  "spliced_aligned"
+    t.integer  "n_genes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "rnaseq_stats", ["post_pipeline_id"], :name => "post_pipeline_id", :unique => true
 
   create_table "sample_mixtures", :force => true do |t|
     t.string   "name_on_tube"

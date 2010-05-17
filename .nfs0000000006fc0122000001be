@@ -11913,4 +11913,211 @@ GEM_HOME=/local/usr/lib/ruby/gems/1.8
 RAILS_GEM_VERSION=2.3.5
 [vcassen@slim cap_slimarray]$ c[K[vcassen@slim cap_slimarray]$ cd /solexa/facility/Novo/100115_HWI-EAS427_FC61099AAXX/Data/Intensities/BaseCalls/GERALD_18-01-2010_sbsuser/post_pipeline_346_505_555/16May10.113040
 [vcassen@slim 16May10.113040]$ sh sample_346_fcl_505_pr_555.qsub.bento.sh 
-sample_346_fcl_505_pr_555.qsub.bento.sh: line 11: /tools/bin/ruby: No such file or dir
+sample_346_fcl_505_pr_555.qsub.bento.sh: line 11: /tools/bin/ruby: No such file or directory
+[vcassen@slim 16May10.113040]$ which ruby
+/usr/bin/ruby
+[vcassen@slim 16May10.113040]$ wqhich [K[K[K[K[K[Kwhich pel
+pel: Command not found.
+[vcassen@slim 16May10.113040]$ which perl
+/usr/bin/perl
+[vcassen@slim 16May10.113040]$ ls /
+bin/  boot/  dev/  etc/  home/	lib/  lib64/  local/  lost+found/  media/  misc/  mnt/	net/  opt/  proc/  root/  sbin/  selinux/  sge/  solexa/  srv/	sys/  tmp/  users/  usr/  var/
+[vcassen@slim 16May10.113040]$ ls /opt/bin
+ls: /opt/bin: No such file or directory
+[vcassen@slim 16May10.113040]$ ls /opt/bin[K
+[vcassen@slim 16May10.113040]$ ls /local
+apps/  doc/  opt/  scripts/  usr/  www/
+[vcassen@slim 16May10.113040]$ ls /local/opt/
+bin/  lib/  share/  src/
+[vcassen@slim 16May10.113040]$ ls /local/opt/bin
+autotest*      gpgen*			 multiruby*	    parse_tree_show*		       passenger-memory-stats*	rackup*     rdoc*	  rmsgfmt*    rubyforge*  taps*       zentest*
+daemon-kit*    install_rubigen_scripts*  multiruby_setup*   passenger-config*		       passenger-spawn-server*	rails*	    ree-version*  rmsgmerge*  schema*	  techbook*
+edit_json.rb*  irb*			 parse_tree_abc*    passenger-install-apache2-module*  passenger-status*	rake*	    restclient*   rubigen*    sequel*	  testrb*
+erb*	       mongrel_rails*		 parse_tree_audit*  passenger-install-nginx-module*    passenger-stress-test*	rake2thor*  rgettext*	  ruby*       shotgun*	  thor*
+gem*	       multigem*		 parse_tree_deps*   passenger-make-enterprisey*        prettify_json.rb*	rdebug*     ri*		  ruby_app*   sow*	  unit_diff*
+[vcassen@slim 16May10.113040]$ ls /local/opt/bin/ruby
+/local/opt/bin/ruby*
+[vcassen@slim 16May10.113040]$ pwd
+/solexa/facility/Novo/100115_HWI-EAS427_FC61099AAXX/Data/Intensities/BaseCalls/GERALD_18-01-2010_sbsuser/post_pipeline_346_505_555/16May10.113040
+[vcassen@slim 16May10.113040]$ cd
+[vcassen@slim ~]$ cd sim[K[K[K[K[Kls
+CarePackage/  post_pipelines@  slimseq_phonybone@
+[vcassen@slim ~]$ cd slimseq_phonybone/db/migrate/
+[vcassen@slim migrate]$ grep -rli partial *
+[vcassen@slim migrate]$ grep -rli partial *[K[K[K[K[K[K[K[Krnaseq-a[K[K_stats *
+[vcassen@slim migrate]$ CD ..[K[K[K[Kcd ../..
+[vcassen@slim ~/slimseq_phonybone]$ script/generate mgr[K[Kigration create_rnaseq_stats
+/local/usr/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require': /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone/vendor/plugins/post_pipelines/app/models/rnaseq_pipeline.rb:3: syntax error (SyntaxError)
+  has_one: rnaseq_stats
+          ^	from /local/usr/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `require'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:156:in `require'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:521:in `new_constants_in'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:156:in `require'
+	from /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone/vendor/plugins/post_pipelines/init.rb:5:in `evaluate_init_rb'
+	from /local/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/rails/plugin.rb:158:in `evaluate_init_rb'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/core_ext/kernel/reporting.rb:11:in `silence_warnings'
+	from /local/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/rails/plugin.rb:154:in `evaluate_init_rb'
+	 ... 12 levels...
+	from /local/usr/lib/ruby/gems/1.8/gems/rails-2.3.5/lib/commands/generate.rb:1
+	from /local/usr/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+	from /local/usr/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `require'
+	from script/generate:3
+[vcassen@slim ~/slimseq_phonybone]$ script/generate migration create_rnaseq_stats
+      exists  db/migrate
+      create  db/migrate/20100516201535_create_rnaseq_stats.rb
+[vcassen@slim ~/slimseq_phonybone]$ cd public
+[vcassen@slim public]$ ls
+404.html*  500.html*  dispatch.cgi*  dispatch.fcgi*  dispatch.rb*  ext/  ext.old/  favicon.ico*  images/  javascripts/	plugin_assets/	robots.txt*  stylesheets/  tree.html
+[vcassen@slim public]$ ls ext
+adapter/  docs/  examples/  ext-all-debug.js  ext-all.js  INCLUDE_ORDER.txt  license.txt  pkgs/  README  resources/  src/
+[vcassen@slim public]$ cd ../..
+[vcassen@slim cap_slimarray_staging]$ ls ..
+array_pricer@  cap_array_pricer/  cap_slimarray/  cap_slimarray_staging/  cap_slimcore/  cap_slimseq/  slimarray@  slimarray_staging@  slimcore@  slimseq@  webistrano/
+[vcassen@slim cap_slimarray_staging]$ cd [K[Kls ../cap[Kp_slim[45G[K
+array_pricer@  cap_array_pricer/  cap_slimarray/  cap_slimarray_staging/  cap_slimcore/  cap_slimseq/  slimarray@  slimarray_staging@  slimcore@  slimseq@  webistrano/
+[vcassen@slim cap_slimarray_staging]$ ls ../cap/slim
+../cap/ not found
+
+[K[vcassen@slim cap_slimarray_staging]$ ls ../cap/slim[K[K[K[K[K[K[K[K[K[K[K[K[Kcd ..
+[vcassen@slim rails]$ pwd
+/net/dblocal/apps/SLIMarray/rails
+[vcassen@slim rails]$ ls
+array_pricer@  cap_array_pricer/  cap_slimarray/  cap_slimarray_staging/  cap_slimcore/  cap_slimseq/  slimarray@  slimarray_staging@  slimcore@  slimseq@  webistrano/
+[vcassen@slim rails]$ cd cap_slimaray[K[Kray
+[vcassen@slim cap_slimarray]$ ls
+current@  releases/  shared/
+[vcassen@slim cap_slimarray]$ file current
+current: broken symbolic link to `/local/apps/SLIMarray/rails/cap_slimarray/releases/20100309225944'
+[vcassen@slim cap_slimarray]$ cd rele[K[K[K[Kshared
+[vcassen@slim shared]$ ls
+cached-copy/  config/  log/  pids/  public/  system/  vendor/
+[vcassen@slim shared]$ cd public
+[vcassen@slim public]$ ls
+quality_traces/
+[vcassen@slim public]$ ls quality_traces/2100[K[27G[K[Kcd ..
+[vcassen@slim shared]$ ls
+cached-copy/  config/  log/  pids/  public/  system/  vendor/
+[vcassen@slim shared]$ ls public/
+quality_traces/
+[vcassen@slim shared]$ cd ..
+[vcassen@slim cap_slimarray]$ ls
+current@  releases/  shared/
+[vcassen@slim cap_slimarray]$ ls releases/
+20090224190400/  20090811211247/  20090904155017/  20090909201727/  20090915185317/  20090916191634/  20091030184107/  20091217214824/	20091229173310/  20100127194249/  20100205180559/
+20090302231521/  20090811211419/  20090908230021/  20090909214442/  20090915191354/  20091027175053/  20091030204052/  20091217220001/	20091229215121/  20100127230222/  20100303221818/
+20090303190026/  20090904152531/  20090909193432/  20090910140418/  20090915191616/  20091027175213/  20091112183536/  20091221223502/	20091229234323/  20100129162934/  20100309225944/
+20090728191207/  20090904153219/  20090909200629/  20090912034233/  20090915193927/  20091030174122/  20091217214229/  20091222193031/	20100119191504/  20100129173449/
+[vcassen@slim cap_slimarray]$ ls releases/20100129173449/
+app/  CHANGELOG  config/  db/  doc/  init.rb  INSTALL.rdoc*  lib/  LICENSE  log@  public/  Rakefile  README.rdoc  REVISION  script/  spec/  tmp/  vendor/
+[vcassen@slim cap_slimarray]$ ls releases/20100129173449/public/
+404.html  500.html  dispatch.cgi*  dispatch.fcgi*  dispatch.rb*  favicon.ico  images/  javascripts/  plugin_assets/  quality_traces@  robots.txt  stylesheets/	system@
+[vcassen@slim cap_slimarray]$ perl -e 'warn 2**4'[K,"\n"'
+16
+[vcassen@slim cap_slimarray]$ perl -e 'warn 2**4,"\n"'[P[1@1[1@.[1@1
+1.4641
+[vcassen@slim cap_slimarray]$ perl -e 'warn 1.1**4,"\n"'[P[1@2[1@0
+6.72749994932561
+[vcassen@slim cap_slimarray]$ perl -e 'warn 1.1**20,"\n"'[P[1@3
+17.4494022688864
+[vcassen@slim cap_slimarray]$ perl -e 'warn 1.1**30,"\n"'[P[1@0[1@5
+4.32194237515067
+[vcassen@slim cap_slimarray]$ perl -e 'warn 1.05**30,"\n"'[P[1@2
+2.65329770514442
+[vcassen@slim cap_slimarray]$ pwd
+/net/dblocal/apps/SLIMarray/rails/cap_slimarray
+[vcassen@slim cap_slimarray]$ cd slims[K[K[Kls
+current@  releases/  shared/
+[vcassen@slim cap_slimarray]$ cd ..
+[vcassen@slim rails]$ ls
+array_pricer@  cap_array_pricer/  cap_slimarray/  cap_slimarray_staging/  cap_slimcore/  cap_slimseq/  slimarray@  slimarray_staging@  slimcore@  slimseq@  webistrano/
+[vcassen@slim rails]$ c [Kfile slims[K[K[K[K[K[K[K[K[Kcd cap_slim[26G[K[Kls ~
+CarePackage/  post_pipelines@  slimseq_phonybone@
+[vcassen@slim rails]$ cd ~/slimseq_phonybone/
+[vcassen@slim ~/slimseq_phonybone]$ pwd
+/net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone
+[vcassen@slim ~/slimseq_phonybone]$ rake db:migrate -[K[45G[K[K[37G[Khistory| grep rake
+     8	16:26	./rake
+    13	16:29	/local/opt/bin/rake db:migrate:plugins
+    71	14:15	/usr/local/bin/rake
+    72	14:16	/local/usr/bin/rake
+   103	14:21	rake --dry-run db:migrate
+   126	14:27	which rake
+   131	14:28	clera ; rake
+   134	14:29	clear ; rake
+   135	14:31	rake RAILS_ENV="production"
+   138	14:39	rake db:migrate RAILS_ENV="production"
+   140	14:47	clear ; rake db:migrate RAILS_ENV="production"
+   263	10:48	rake db:migrate --dry_run
+   264	10:48	rake db:migrate --dry_run --trace
+   265	10:48	rake db:migrate
+   267	10:50	rake db:migrate RAILS_ENV=production
+   308	11:46	rake db:migrate:down RAILS_ENV=production VERSION=20100511184909
+   309	11:46	rake db:migrate RAILS_ENV=production VERSION=20100511184909
+   310	11:47	rake
+   311	11:47	rake --help
+   312	11:47	rake -n -v
+   313	11:48	rake -n -v db:migrate RAILS_ENV=production VERSION=20100511184909 | & l
+   315	11:49	rake -n -v db:migrate RAILS_ENV=production VERSION=20100511184909
+   318	11:51	clear ; rake -v db:migrate:down RAILS_ENV=production VERSION=20100511184909
+   319	11:51	clear ; rake -v db:migrate RAILS_ENV=production VERSION=20100511184909
+   408	10:50	history | grep rake
+[vcassen@slim ~/slimseq_phonybone]$ rake db:migreate RAILS_ENV=production VERSION=2010051620153
+(in /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone)
+rake aborted!
+Don't know how to build task 'db:migreate'
+
+(See full trace by running task with --trace)
+[vcassen@slim ~/slimseq_phonybone]$ rake db:migreate RAILS_ENV=production VERSION=2010051620153[37Grake db:migrea[P
+(in /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone)
+rake aborted!
+No migration with version number 2010051620153
+
+(See full trace by running task with --trace)
+[vcassen@slim ~/slimseq_phonybone]$ ld [Ks db/migrate/ | grep rnaseq_stat
+20100516201535_create_rnaseq_stats.rb
+[vcassen@slim ~/slimseq_phonybone]$ ls db/migrate/ | grep rnaseq_stat[37Grake db:migrate RAILS_ENV=production VERSION=2010051620153[K[K[K[K[K[K[K[K[K[K[K[K[K20100516201535
+(in /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone)
+==  CreateRnaseqStats: migrating ==============================================
+-- create_table(:rnaseq_stats)
+   -> 0.0086s
+==  CreateRnaseqStats: migrated (0.0089s) =====================================
+
+[vcassen@slim ~/slimseq_phonybone]$ script/console
+Loading development environment (Rails 2.3.5)
+>> RnaseqPipeline.find(69)
+=> #<RnaseqPipeline id: 69, name: "sample_183_fcl_239_pr_286", email: "vcassen@systemsbiology.org", status: "Finished", sample_mixture_id: 183, flow_cell_lane_id: 239, pipeline_result_id: 286, working_dir: "/solexa/hood/DTRA_lung/090529_HWI-EAS427_FC42B2GAAX...", export_file: "s_7_export.txt", align_params: "-k 11 -m 10 -t --best -q -n 1", org: "mouse", ref_genome: "mouse_spliced_31", max_mismatches: 1, qsub_job_id: nil, created_at: "2010-05-16 19:35:17", updated_at: "2010-05-16 21:49:10">
+>> RnaseqPipeline.find(69)>> rRnaseqPipeline.find(69)>> rpRnaseqPipeline.find(69)>> rp=RnaseqPipeline.find(69)>> rp=
+=> #<RnaseqPipeline id: 69, name: "sample_183_fcl_239_pr_286", email: "vcassen@systemsbiology.org", status: "Finished", sample_mixture_id: 183, flow_cell_lane_id: 239, pipeline_result_id: 286, working_dir: "/solexa/hood/DTRA_lung/090529_HWI-EAS427_FC42B2GAAX...", export_file: "s_7_export.txt", align_params: "-k 11 -m 10 -t --best -q -n 1", org: "mouse", ref_genome: "mouse_spliced_31", max_mismatches: 1, qsub_job_id: nil, created_at: "2010-05-16 19:35:17", updated_at: "2010-05-16 21:49:10">
+>> rp.stats
+TypeError: superclass must be a Class (Module given)
+	from /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone/vendor/plugins/post_pipelines/app/models/rnaseq_stats.rb:1
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:380:in `load_without_new_constant_marking'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:380:in `load_file'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:521:in `new_constants_in'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:379:in `load_file'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:259:in `require_or_load_without_engine_additions'
+	from /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone/vendor/plugins/engines/lib/engines/rails_extensions/dependencies.rb:132:in `require_or_load'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:425:in `load_missing_constant'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:80:in `const_missing'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/dependencies.rb:92:in `const_missing'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/base.rb:2197:in `compute_type'
+	from /local/usr/lib/ruby/gems/1.8/gems/activesupport-2.3.5/lib/active_support/core_ext/kernel/reporting.rb:11:in `silence_warnings'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/base.rb:2195:in `compute_type'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/reflection.rb:156:in `send'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/reflection.rb:156:in `klass'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/reflection.rb:187:in `quoted_table_name'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/associations/has_one_association.rb:96:in `construct_sql'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/associations/has_one_association.rb:6:in `initialize'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/associations.rb:1249:in `new'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/associations.rb:1249:in `rnaseq_stats'
+	from /net/dblocal/apps/SLIMarray/rails/cap_slimarray_staging/slimseq_phonybone/vendor/plugins/post_pipelines/app/models/rnaseq_pipeline.rb:169:in `stats'
+	from (irb):3>> rele[Koasd[K[Kd!
+Reloading...
+=> true
+>> reload!>> rp.stats=RnaseqPipeline.find(69)
+=> #<RnaseqPipeline id: 69, name: "sample_183_fcl_239_pr_286", email: "vcassen@systemsbiology.org", status: "Finished", sample_mixture_id: 183, flow_cell_lane_id: 239, pipeline_result_id: 286, working_dir: "/solexa/hood/DTRA_lung/090529_HWI-EAS427_FC42B2GAAX...", export_file: "s_7_export.txt", align_params: "-k 11 -m 10 -t --best -q -n 1", org: "mouse", ref_genome: "mouse_spliced_31", max_mismatches: 1, qsub_job_id: nil, created_at: "2010-05-16 19:35:17", updated_at: "2010-05-16 21:49:10">
+>> rp=RnaseqPipeline.find(69)>> reload![K>> rp.stats
+ActiveRecord::StatementInvalid: Mysql::Error: Unknown column 'rnaseq_stats.rnaseq_pipeline_id' in 'where clause': SELECT * FROM `rnaseq_stats` WHERE (`rnaseq_stats`.rnaseq_pipeline_id = 69)  LIMIT 1
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/connection_adapters/abstract_adapter.rb:219:in `log'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/connection_adapters/mysql_adapter.rb:323:in `execute'
+	from /local/usr/lib/ruby/gems/1.8/gems/activerecord-2.3.5/lib/active_record/conne
