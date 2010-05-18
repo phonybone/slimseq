@@ -157,7 +157,7 @@ class RnaseqPipeline < ActiveRecord::Base
     n_genes=n_genes.match(/^\d+/)[0]
     record.send("n_genes=",n_genes)
 
-    record[:post_pipeline_id]=self.id # necessary?
+    record[:rnaseq_pipeline_id]=self.id # necessary?
     record.save
     record
   end
