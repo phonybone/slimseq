@@ -161,6 +161,8 @@ class RnaseqPipelinesController < ApplicationController
     render :launch_prep
   end
 
+  def help
+  end
 
 ########################################################################
 
