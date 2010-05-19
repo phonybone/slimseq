@@ -1,0 +1,2 @@
+export base_dir=/net/dblocal/www/html/devVC/sbeams/lib/scripts/SolexaTrans
+perl $base_dir/process_solexa.pl -ssid=287 -flowcell_id=331 

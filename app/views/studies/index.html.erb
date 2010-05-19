@@ -4,16 +4,27 @@
   <tr>
     <th>Name</th>
     <th>Description</th>
+
     <th>Project</th>
+<!-- brux fixme
+    <th>Has many</th>
+    <th>Belongs to</th>
+-->
   </tr>
 
 <% for study in @studies %>
   <tr>
     <td><%=h study.name %></td>
     <td><%=h study.description %></td>
+<!-- brux fixme -->
     <td><%=h study.project.name %></td>
     <td><%= link_to 'Show', study_path(study) %></td>
     <td><%= link_to 'Edit', edit_study_path(study) %></td>
+<!-- brux fixme 
+    <td><%= link_to 'Show', study_path(study) %></td>
+    <td><%= link_to 'Edit', edit_study_path(study) %></td>
+    <td><%= link_to 'Destroy', study, :confirm => 'Are you sure?', :method => :delete %></td>
+-->
   </tr>
 <% end %>
 </table>

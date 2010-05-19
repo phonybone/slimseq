@@ -1,0 +1,23 @@
+production:
+  adapter: mysql
+  database: slimseq_production
+  username: root
+  password: 
+  host: localhost
+  encoding: utf8
+
+development:
+  adapter: mysql
+  database: slimseq_development
+  username: root
+  password: 
+  host: localhost
+  encoding: utf8
+  
+test:
+  adapter: mysql
+  database: slimseq_test
+  username: root
+  password: 
+  host: localhost
+  encoding: utf8

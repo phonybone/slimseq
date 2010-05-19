@@ -9,7 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+#<<<<<<< HEAD
+# bruz fixme
 ActiveRecord::Schema.define(:version => 20100516201535) do
+#=======
+ActiveRecord::Schema.define(:version => 20091104215718) do
+#>>>>>>> 4eb8855c27cf7c68d6682b9890fc080e1aa13712
 
   create_table "charge_periods", :force => true do |t|
     t.string   "name"
@@ -55,6 +60,13 @@ ActiveRecord::Schema.define(:version => 20100516201535) do
 
   add_index "charges", ["charge_set_id"], :name => "charge_set_id"
 
+  create_table "dummies", :force => true do |t|
+    t.integer  "dummy_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "eland_parameter_sets", :force => true do |t|
     t.string  "name"
     t.integer "eland_seed_length"
@@ -79,6 +91,9 @@ ActiveRecord::Schema.define(:version => 20100516201535) do
     t.datetime "updated_at"
     t.string   "json_style"
     t.string   "authentication_method"
+# bruz fixme: keep this next line?
+#    t.integer  "stp_pipeline_id"
+
   end
 
   create_table "flow_cell_lanes", :force => true do |t|
@@ -241,6 +256,23 @@ ActiveRecord::Schema.define(:version => 20100516201535) do
     t.integer  "qsub_job_id"
   end
 
+  create_table "post_pipelines", :force => true do |t|
+    t.integer  "runtype",             :default => 0,             :null => false
+    t.integer  "max_mismatches",      :default => 1
+    t.string   "name",                                           :null => false
+    t.string   "status",              :default => "Not started", :null => false
+    t.integer  "pipeline_result_id",                             :null => false
+    t.integer  "sample_id",                                      :null => false
+    t.integer  "flow_cell_lane_id",                              :null => false
+    t.integer  "reference_genome_id",                            :null => false
+    t.string   "working_dir",                                    :null => false
+    t.string   "export_file",                                    :null => false
+    t.string   "ref_genome_path",                                :null => false
+    t.string   "org_name",                                       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "projects", :force => true do |t|
     t.string   "name"
     t.string   "file_folder"
@@ -322,6 +354,13 @@ ActiveRecord::Schema.define(:version => 20100516201535) do
     t.datetime "updated_at"
   end
 
+  create_table "rna_seq_ref_genomes", :force => true do |t|
+    t.string "path",        :null => false
+    t.string "name",        :null => false
+    t.string "org",         :null => false
+    t.string "description"
+  end
+
   create_table "sample_prep_kits", :force => true do |t|
     t.string   "name"
     t.integer  "lock_version",           :default => 0
@@ -363,11 +402,24 @@ ActiveRecord::Schema.define(:version => 20100516201535) do
     t.integer  "lock_version",        :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+#<<<<<<< HEAD
     t.integer  "experiment_id"
     t.string   "postback_uri"
     t.integer  "sample_mixture_id"
     t.integer  "multiplex_code_id"
+# =======
+#     t.integer  "eland_parameter_set_id"
+#     t.boolean  "ready_for_sequencing",     :default => true,        :null => false
+#     t.integer  "experiment_id"
+#   end
+
+#   create_table "samples_stp_pipelines", :id => false, :force => true do |t|
+#     t.integer "sample_id",       :null => false
+#     t.integer "stp_pipeline_id", :null => false
+# >>>>>>> 4eb8855c27cf7c68d6682b9890fc080e1aa13712
   end
+
+  add_index "samples_stp_pipelines", ["sample_id", "stp_pipeline_id"], :name => "index_samples_stp_pipelines_on_sample_id_and_stp_pipeline_id", :unique => true
 
   create_table "schema_info", :id => false, :force => true do |t|
     t.integer "version"

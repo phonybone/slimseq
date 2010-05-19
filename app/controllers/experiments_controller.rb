@@ -98,6 +98,7 @@ class ExperimentsController < ApplicationController
         @all_samples << s
       end
     end
+
     # some might already be assigned to this experiment, some
     # might be assigned to other experiments, and some might not be
     # assigned to anything.

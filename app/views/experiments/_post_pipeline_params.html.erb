@@ -1,0 +1,38 @@
+
+<script type='text/javascript'>
+function set_genome_select() {
+  var rt_select=document.getElementById('post_pipeline_runtype');
+  var rt_opt=rt_select.options[rt_select.selectedIndex];
+  set_select_options('fred',rt_opt.value,opts_array);
+}
+</script>
+
+<h3>Pipeline Parameters:</h3>
+<table>
+  <tr><td>Max. alignnment mismatches: &nbsp;</td>
+  <td><%= radio_button :post_pipeline, :max_mismatches, 1, {:checked=>true} %>
+  <%= label_tag :max_mismatches, 1  %>
+
+  <%= radio_button :post_pipeline, :max_mismatches, 2 %>
+  <%= label_tag(:max_mismatches, 2) %>
+
+  <%= radio_button :post_pipeline, :max_mismatches, 3 %>
+  <%= label_tag(:max_mismatches, 3) %>
+</td></tr>
+
+<tr>
+  <td><%= label_tag :runtype, 'Run Type' %></td>
+  <td><select id='post_pipeline_runtype' name='post_pipeline[runtype]' onChange='set_genome_select()'>
+      <% PostPipeline.type_names.as_indexed_pairs.each do |p| %>
+      <%= "<option value=#{p[1]}>#{p[0]}</option>" %>
+      <% end %>
+      </select></td>
+</tr>
+<tr>
+  <td><%= label_tag :runtype, 'Run Type' %></td>
+  <td><select name='post_pipeline[reference_genome_id]' id='fred'></select>
+  </td>
+</tr>
+<script type='text/javascript'>set_select_options('fred',0,opts_array)</script>
+
+</table>

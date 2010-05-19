@@ -1,32 +1,30 @@
 class LabGroupProfile < ActiveRecord::Base
   belongs_to :lab_group
-
   validates_presence_of :lab_group_id
 
+  # Manually provide a list of column names that should be shown in the lab_groups/index view, 
+  # since ActiveResource doesn't seem to provide an easy way to do this.
   class << self; attr_accessor :index_columns end
-  @index_columns = ['file_folder']
+  @index_columns = []
 
+  # Define a custom warning for destroying this lab group, e.g. 'Destroying this lab group will 
+  # also destroy 10 projects!'
   def destroy_warning
+# bruz fixme:
+#<<<<<<< HEAD
     projects = Project.find(:all, :conditions => ["lab_group_id = ?", lab_group_id])
     
     return "Destroying this lab group will also destroy:\n" + 
            projects.size.to_s + " project(s)\n" +
            "Are you sure you want to destroy it?"
+#=======
+#    return "Are you sure you want to destroy this lab group?"
+#>>>>>>> 4eb8855c27cf7c68d6682b9890fc080e1aa13712
   end
 
+  # Any LabProfile attributes that should be included with the LabGroup detail_hash
   def detail_hash
-    return {
-      :file_folder => file_folder,
-      :project_uris => project_ids.sort.
-        collect {|x| "#{SiteConfig.site_url}/projects/#{x}" }
-    }
+    return {}
   end
 
-private
-  
-  def project_ids
-    projects = Project.find(:all, :conditions => {:lab_group_id => lab_group_id})
-
-    projects.collect {|p| p.id}
-  end
 end
