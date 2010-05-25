@@ -1,15 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :rnaseq_pipelines
-
   map.resources :external_services
 
   map.resources :eland_parameter_sets
 
   # backward compatibility with bookmarked login page
   map.connect 'session/new', :controller => "welcome", :action => "home"
-
-  # victor/phonybone
-  map.connect '/post_pipelines/help', :controller=>:post_pipelines, :action=>:help
 
   # logout
   map.connect 'logout', :controller => "sessions", :action => "destroy"
@@ -48,7 +43,6 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'samples/browseh/:project/:study', :controller=>'samples', :action=>'browseh'
   map.connect 'samples/browseh/:project', :controller=>'samples', :action=>'browseh'
   map.connect 'samples/browseh', :controller=>'samples', :action=>'browseh'
-#<<<<<<< HEAD
 
   # make sample_mixtures actions appear under the /samples URL
   map.resources :sample_mixtures, :as => "samples", :except => [:index, :show],
@@ -57,9 +51,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :samples, :only => [:index, :show]
   
   map.resources :sample_sets, :only => [:new, :create]
-# bruz fixme =======
-#  map.resources :samples, :collection => {:browse => :get, :search => :get, :all => :get}
-#>>>>>>> 4eb8855c27cf7c68d6682b9890fc080e1aa13712
   
   map.resources :instruments
 
@@ -104,7 +95,6 @@ ActionController::Routing::Routes.draw do |map|
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   map.root :controller => "welcome", :action => "home"
-
 
   # See how all your routes lay out with "rake routes"
 

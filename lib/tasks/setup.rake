@@ -1,5 +1,5 @@
 desc "Initial set up of SLIMseq"
-task :setup => ["gems:install", "setup:configuration", "setup:naming_schemer", "setup:authorizer",
+task :setup => ["setup:configuration", "gems:install", "setup:naming_schemer", "setup:authorizer",
                 "db:load", "setup:external_data", "setup:admin_user"]
 
 namespace :setup do
@@ -55,6 +55,17 @@ namespace :setup do
 
     # Not sure why, but APP_CONFIG isn't always loaded when this task runs
     require 'config/initializers/1-load_application_config'
+
+    # need this to get models from authorizer plugin if it was 
+    # installed while rake has been running
+
+    if File.exists? 'vendor/plugins/slimcore_authorizer'
+      model_folder = 'vendor/plugins/slimcore_authorizer/app/models/'
+    elsif File.exists? 'vendor/plugins/slimsolo_authorizer'
+      model_folder = 'vendor/plugins/slimsolo_authorizer/app/models'
+    end
+    load model_folder + "lab_group.rb"
+    load model_folder + "user.rb"
 
     facility_group = LabGroup.find_or_create_by_name("Microarray Facility")
     LabGroupProfile.create(:lab_group_id => facility_group.id)

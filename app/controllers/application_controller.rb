@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Exception Notifier plugin
-#  include ExceptionNotifiable
+  include ExceptionNotifiable
   
   # filter passwords out of logs
   filter_parameter_logging "password"
@@ -23,8 +23,6 @@ class ApplicationController < ActionController::Base
   # See ActionController::RequestForgeryProtection for details
   # Uncomment the :secret if you're not using the cookie session store
   # protect_from_forgery # :secret => 'c1e0cc867735b750b889ccc506dd107f'
-
-  AppConfig.load
   
   protected
 

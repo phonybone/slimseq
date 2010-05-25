@@ -10,16 +10,11 @@ class LabGroupProfile < ActiveRecord::Base
   # Define a custom warning for destroying this lab group, e.g. 'Destroying this lab group will 
   # also destroy 10 projects!'
   def destroy_warning
-# bruz fixme:
-#<<<<<<< HEAD
     projects = Project.find(:all, :conditions => ["lab_group_id = ?", lab_group_id])
     
     return "Destroying this lab group will also destroy:\n" + 
            projects.size.to_s + " project(s)\n" +
            "Are you sure you want to destroy it?"
-#=======
-#    return "Are you sure you want to destroy this lab group?"
-#>>>>>>> 4eb8855c27cf7c68d6682b9890fc080e1aa13712
   end
 
   # Any LabProfile attributes that should be included with the LabGroup detail_hash

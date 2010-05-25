@@ -6,20 +6,12 @@ describe LabGroupProfile do
   it "should provide a destroy warning" do
     lab_group_profile = LabGroupProfile.create(:lab_group_id => 3)
 
-# bruz fixme
-# <<<<<<< HEAD
-#     Project.should_receive(:find).and_return( [mock_model(Project)] )
-
-#     lab_group_profile.destroy_warning.should ==
-#       "Destroying this lab group will also destroy:\n" + 
-#            "1 project(s)\n" +
-#            "Are you sure you want to destroy it?"
-#=======
-    ChargeSet.should_receive(:find).and_return( [mock_model(ChargeSet), mock_model(ChargeSet)] )
+    Project.should_receive(:find).and_return( [mock_model(Project)] )
 
     lab_group_profile.destroy_warning.should ==
-      "Are you sure you want to destroy this lab group?"
-#>>>>>>> 4eb8855c27cf7c68d6682b9890fc080e1aa13712
+      "Destroying this lab group will also destroy:\n" + 
+           "1 project(s)\n" +
+           "Are you sure you want to destroy it?"
   end
 
   it "should provide a detail hash of attributes" do

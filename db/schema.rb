@@ -9,12 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-#<<<<<<< HEAD
-# bruz fixme
-ActiveRecord::Schema.define(:version => 20100516201535) do
-#=======
-ActiveRecord::Schema.define(:version => 20091104215718) do
-#>>>>>>> 4eb8855c27cf7c68d6682b9890fc080e1aa13712
+ActiveRecord::Schema.define(:version => 20100419173009) do
 
   create_table "charge_periods", :force => true do |t|
     t.string   "name"
@@ -82,18 +77,15 @@ ActiveRecord::Schema.define(:version => 20091104215718) do
   end
 
   create_table "external_services", :force => true do |t|
-    t.string   "uri",                        :default => "",    :null => false
-    t.boolean  "authentication",             :default => false, :null => false
+    t.string   "uri",                        :null => false
+    t.boolean  "authentication",             :null => false
     t.string   "username"
     t.string   "password"
-    t.boolean  "sample_status_notification", :default => false, :null => false
+    t.boolean  "sample_status_notification", :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "json_style"
     t.string   "authentication_method"
-# bruz fixme: keep this next line?
-#    t.integer  "stp_pipeline_id"
-
   end
 
   create_table "flow_cell_lanes", :force => true do |t|
@@ -233,6 +225,7 @@ ActiveRecord::Schema.define(:version => 20091104215718) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "archived",          :default => false, :null => false
+<<<<<<< HEAD
   end
 
   create_table "post_pipelines", :force => true do |t|
@@ -271,6 +264,8 @@ ActiveRecord::Schema.define(:version => 20091104215718) do
     t.string   "org_name",                                       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+=======
+>>>>>>> db68eeb7bfdd437e89b7fd8f1bcd67d7b72cd100
   end
 
   create_table "projects", :force => true do |t|
@@ -294,6 +289,7 @@ ActiveRecord::Schema.define(:version => 20091104215718) do
     t.string   "gene_gtf_path"
   end
 
+<<<<<<< HEAD
   create_table "rna_seq_ref_genomes", :force => true do |t|
     t.string  "path",        :default => "", :null => false
     t.string  "name",        :default => "", :null => false
@@ -329,6 +325,25 @@ ActiveRecord::Schema.define(:version => 20091104215718) do
     t.integer  "multi_aligned"
     t.integer  "spliced_aligned"
     t.integer  "n_genes"
+=======
+  create_table "sample_mixtures", :force => true do |t|
+    t.string   "name_on_tube"
+    t.string   "sample_description"
+    t.integer  "project_id"
+    t.string   "budget_number"
+    t.integer  "desired_read_length"
+    t.integer  "alignment_start_position", :default => 1
+    t.integer  "alignment_end_position"
+    t.boolean  "control",                  :default => false
+    t.string   "comment"
+    t.boolean  "ready_for_sequencing",     :default => true
+    t.integer  "eland_parameter_set_id"
+    t.date     "submission_date"
+    t.string   "status"
+    t.integer  "submitted_by_id"
+    t.integer  "sample_prep_kit_id"
+    t.integer  "sample_set_id"
+>>>>>>> db68eeb7bfdd437e89b7fd8f1bcd67d7b72cd100
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -398,15 +413,23 @@ ActiveRecord::Schema.define(:version => 20091104215718) do
     t.string   "sample_description"
     t.integer  "insert_size"
     t.integer  "reference_genome_id"
+<<<<<<< HEAD
     t.string   "naming_scheme_id"
     t.integer  "lock_version",        :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
 #<<<<<<< HEAD
+=======
+    t.integer   "naming_scheme_id"
+    t.integer  "lock_version",        :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+>>>>>>> db68eeb7bfdd437e89b7fd8f1bcd67d7b72cd100
     t.integer  "experiment_id"
     t.string   "postback_uri"
     t.integer  "sample_mixture_id"
     t.integer  "multiplex_code_id"
+<<<<<<< HEAD
 # =======
 #     t.integer  "eland_parameter_set_id"
 #     t.boolean  "ready_for_sequencing",     :default => true,        :null => false
@@ -423,6 +446,8 @@ ActiveRecord::Schema.define(:version => 20091104215718) do
 
   create_table "schema_info", :id => false, :force => true do |t|
     t.integer "version"
+=======
+>>>>>>> db68eeb7bfdd437e89b7fd8f1bcd67d7b72cd100
   end
 
   create_table "sequencing_runs", :force => true do |t|
